@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import {Platform } from "react-native";
 
 const generateBoxShadowStyle = (
   xOffset: number,
