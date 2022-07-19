@@ -8,8 +8,8 @@ import Pomodoro from "../../screens/Pomodoro/index.Pomodoro";
 import Tutorials from "../../screens/Tutorials/index.Tutorials";
 import { AgendaIcon, LogbookIcon, PomodoroIcon, TutorialsIcon } from "../Icons";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
-import * as Haptics from "expo-haptics";
 import React from "react";
+import addLightHapticFeedback from "../../../helpers/HapticFeedback";
 
 // bottom navbar
 const Tab = createBottomTabNavigator();
@@ -74,7 +74,7 @@ export default function Navigation() {
               <Pressable
                 onPress={() => {
                   // add haptic feedback and navigate to new route
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  addLightHapticFeedback("light");
                   navigation.navigate(rn);
                 }}
               >

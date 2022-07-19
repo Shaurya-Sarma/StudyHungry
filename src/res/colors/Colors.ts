@@ -1,4 +1,5 @@
 const COLORS = {
+  pureWhite: "#FFFFFF",
   white: "#F9F9F9",
   purple: "#473E75",
   black: "#000000",

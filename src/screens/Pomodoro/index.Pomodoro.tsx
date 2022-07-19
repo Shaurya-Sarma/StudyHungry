@@ -12,6 +12,7 @@ export default function Pomodoro() {
         renderItem={({ item }) => <PomodoroPage itemData={item} />}
         horizontal
         pagingEnabled
+        showsHorizontalScrollIndicator={false}
         bounces={false}
       />
     </SafeAreaView>

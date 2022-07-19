@@ -1,11 +1,17 @@
+import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import CircularProgress from "react-native-circular-progress-indicator";
+import CircularProgress, {
+  ProgressRef,
+} from "react-native-circular-progress-indicator";
 
 export default function Timer(props: {
   timerValue: number;
   color: string;
   accentColor: string;
 }) {
+  // declare countdown timer controls
+  const progressRef = useRef<ProgressRef>(null);
+
   return (
     <View>
       <CircularProgress
@@ -20,7 +26,7 @@ export default function Timer(props: {
         activeStrokeSecondaryColor={props.accentColor}
         inActiveStrokeColor={props.color}
         inActiveStrokeOpacity={0.1}
-        strokeLinecap="butt"
+        strokeLinecap="round"
         progressFormatter={(seconds) => {
           "worklet"; // React Native Reanimated needs function to be defined "worklet"
           // convert time in seconds into formatted time in MM:SS

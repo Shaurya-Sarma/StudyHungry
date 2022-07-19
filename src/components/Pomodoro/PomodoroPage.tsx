@@ -14,9 +14,9 @@ export default function PomodoroPage({ itemData }: { itemData: any }) {
         accentColor={itemData.accentColor}
       />
       <View style={styles.buttonList}>
-        <ActionButton name="settings" />
-        <ActionButton name="play" />
-        <ActionButton name="restart" />
+        <ActionButton name="settings" themeColor={itemData.primaryColor} />
+        <ActionButton name="play" themeColor={itemData.primaryColor} />
+        <ActionButton name="restart" themeColor={itemData.primaryColor} />
       </View>
     </View>
   );
@@ -27,5 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonList: {},
+  buttonList: {
+    flexDirection: "row",
+  },
 });
