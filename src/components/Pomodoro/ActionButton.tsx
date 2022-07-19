@@ -1,45 +1,72 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 import COLORS from "../../res/colors/Colors";
 import { PlayIcon, RestartIcon, SettingsIcon } from "../Icons";
 
-// handle button press for each button
-function actionHandler(actionType: string) {
-  addHapticFeedback("medium");
-  if (actionType === "settings") {
-    //TODO open pop up settings screen with focus mode
-  } else if (actionType === "restart") {
-    //TODO restart the timer
-  } else if (actionType === "play") {
-    //TODO play and stop the timer
-  }
-}
 // styling constants
 const iconSize = 45;
 const iconColor = COLORS.pureWhite;
 const buttonSize = 75;
 
-export const ActionButton = (props: { name: string; themeColor: string }) => {
-  let iconTag;
+export const ActionButton = (props: {
+  name: string;
+  themeColor: string;
+  timerReference: any;
+}) => {
+  // tracker for whether timer is active
+  const [isEnabled, setIsEnabled] = useState(false);
+  // handle button press for each button
+  const openSettings = () => {
+    addHapticFeedback("light");
+    alert("settings");
+  };
+  const activateTimer = () => {
+    addHapticFeedback("light");
+    // toggle play or pause button
+    setIsEnabled((isEnabled) => !isEnabled);
+    if (isEnabled) {
+      props.timerReference.current.play();
+    } else {
+      props.timerReference.current.pause();
+    }
+  };
+  const restartTimer = () => {
+    addHapticFeedback("light");
+    props.timerReference.current.reAnimate();
+  };
+
   // define type of action button based on prop passed
   if (props.name === "settings") {
-    iconTag = <SettingsIcon size={iconSize} fillColor={iconColor} />;
+    return (
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: props.themeColor }]}
+        onPress={() => openSettings()}
+      >
+        <SettingsIcon size={iconSize} fillColor={iconColor} />
+      </TouchableOpacity>
+    );
   } else if (props.name === "play") {
-    iconTag = (
-      <PlayIcon size={iconSize} fillColor={iconColor} isPaused={false} />
+    return (
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: props.themeColor }]}
+        onPress={() => activateTimer()}
+      >
+        <PlayIcon size={iconSize} fillColor={iconColor} isEnabled={isEnabled} />
+      </TouchableOpacity>
     );
   } else if (props.name === "restart") {
-    iconTag = <RestartIcon size={iconSize} fillColor={iconColor} />;
+    return (
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: props.themeColor }]}
+        onPress={() => restartTimer()}
+      >
+        <RestartIcon size={iconSize} fillColor={iconColor} />
+      </TouchableOpacity>
+    );
+  } else {
+    return <View />;
   }
-  // return the icon button
-  return (
-    <TouchableOpacity
-      style={[styles.button, { backgroundColor: props.themeColor }]}
-      onPress={() => actionHandler(props.name)}
-    >
-      {iconTag}
-    </TouchableOpacity>
-  );
 };
 
 const styles = StyleSheet.create({

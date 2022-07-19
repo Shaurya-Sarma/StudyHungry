@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
+import { ActionButton } from "./ActionButton";
 
 export default function Timer(props: {
   timerValue: number;
@@ -10,11 +11,13 @@ export default function Timer(props: {
   accentColor: string;
 }) {
   // declare countdown timer controls
-  const progressRef = useRef<ProgressRef>(null);
+  const timerControls = useRef<ProgressRef>(null);
+  timerControls.current?.pause();
 
   return (
     <View>
       <CircularProgress
+        ref={timerControls}
         value={0}
         radius={150}
         maxValue={props.timerValue}
@@ -39,6 +42,23 @@ export default function Timer(props: {
         duration={props.timerValue * 1000}
         progressValueStyle={styles.text}
       />
+      <View style={styles.buttonList}>
+        <ActionButton
+          name="settings"
+          themeColor={props.color}
+          timerReference={timerControls}
+        />
+        <ActionButton
+          name="play"
+          themeColor={props.color}
+          timerReference={timerControls}
+        />
+        <ActionButton
+          name="restart"
+          themeColor={props.color}
+          timerReference={timerControls}
+        />
+      </View>
     </View>
   );
 }
@@ -46,5 +66,8 @@ export default function Timer(props: {
 const styles = StyleSheet.create({
   text: {
     fontSize: 64,
+  },
+  buttonList: {
+    flexDirection: "row",
   },
 });
