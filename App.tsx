@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Navigation from "./src/components/Navigation";
-import COLORS from "./src/res/colors/Colors";
+import Navigation from "./src/components/navigation/BottomTabNavigation";
 
 export default function App() {
   return (

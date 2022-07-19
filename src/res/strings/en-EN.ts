@@ -1,5 +1,7 @@
-const STRING_CONSTANTS = {
-
+const STRINGS = {
+  pomodoroTitleFocus : "It's time to focus!",
+  pomodoroTitleShortBreak : "Take a deep breathe.",
+  pomodoroTitleLongBreak: "Nice work! Relax :)",
 }
 
-export default STRING_CONSTANTS;
+export default STRINGS;

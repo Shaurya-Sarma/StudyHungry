@@ -1,10 +1,19 @@
-import { Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import pageData from "../../components/Pomodoro/pages";
+import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
 import styles from "./styles.Pomodoro";
 
 export default function Pomodoro() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>This is the Pomodoro page.</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={pageData}
+        renderItem={({ item }) => <PomodoroPage itemData={item} />}
+        horizontal
+        pagingEnabled
+        bounces={false}
+      />
+    </SafeAreaView>
   );
 }

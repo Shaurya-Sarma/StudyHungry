@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import COLORS from "../res/colors/Colors";
-import Agenda from "../screens/Agenda/index.Agenda";
-import Logbook from "../screens/Logbook/index.Logbook";
-import Pomodoro from "../screens/Pomodoro/index.Pomodoro";
-import Tutorials from "../screens/Tutorials/index.Tutorials";
-import { AgendaIcon, LogbookIcon, PomodoroIcon, TutorialsIcon } from "./Icons";
-import generateBoxShadowStyle from "../../helpers/BoxShadow";
+import COLORS from "../../res/colors/Colors";
+import Agenda from "../../screens/Agenda/index.Agenda";
+import Logbook from "../../screens/Logbook/index.Logbook";
+import Pomodoro from "../../screens/Pomodoro/index.Pomodoro";
+import Tutorials from "../../screens/Tutorials/index.Tutorials";
+import { AgendaIcon, LogbookIcon, PomodoroIcon, TutorialsIcon } from "../Icons";
+import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import * as Haptics from "expo-haptics";
 import React from "react";
 
