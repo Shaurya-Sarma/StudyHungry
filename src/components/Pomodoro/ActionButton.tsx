@@ -23,17 +23,21 @@ export const ActionButton = (props: {
   };
   const activateTimer = () => {
     addHapticFeedback("light");
-    // toggle play or pause button
-    setIsEnabled((isEnabled) => !isEnabled);
+    console.log(isEnabled);
     if (isEnabled) {
       props.timerReference.current.play();
     } else {
       props.timerReference.current.pause();
     }
+    // toggle play or pause button
+    setIsEnabled((isEnabled) => !isEnabled);
   };
   const restartTimer = () => {
     addHapticFeedback("light");
     props.timerReference.current.reAnimate();
+    setIsEnabled((isEnabled) => (isEnabled = false));
+    console.log(isEnabled);
+    activateTimer();
   };
 
   // define type of action button based on prop passed

@@ -1,7 +1,10 @@
 const STRINGS = {
-  pomodoroTitleFocus : "It's time to focus!",
-  pomodoroTitleShortBreak : "Take a deep breathe.",
-  pomodoroTitleLongBreak: "Nice work! Relax :)",
+  pomodoroTitleFocusSub : "It's time to",
+  pomodoroTitleFocusMain : "focus!",
+  pomodoroTitleShortBreakSub : "Take a deep",
+  pomodoroTitleShortBreakMain : "breathe.",
+  pomodoroTitleLongBreakSub: "Nice work!",
+  pomodoroTitleLongBreakMain: "Relax :)",
 }
 
 export default STRINGS;

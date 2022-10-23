@@ -6,7 +6,10 @@ export default function PomodoroPage({ itemData }: { itemData: any }) {
 
   return (
     <View style={[styles.container, windowWidth]}>
-      <Text>{itemData.title}</Text>
+      <Text style={[styles.subtitle]}>{itemData.subtitle}</Text>
+      <Text style={[styles.title, { color: itemData.primaryColor }]}>
+        {itemData.title}
+      </Text>
       <Timer
         timerValue={itemData.timerValue}
         color={itemData.primaryColor}
@@ -20,5 +23,16 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  subtitle: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: 40,
+    marginTop: -90,
+  },
+  title: {
+    fontFamily: "Nunito-Black",
+    fontSize: 60,
+    textTransform: "uppercase",
+    marginTop: -10,
   },
 });
