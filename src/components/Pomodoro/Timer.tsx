@@ -1,17 +1,76 @@
+import { useState } from "react";
+import { useEffect } from "react";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
+import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { ActionButton } from "./ActionButton";
 
 export default function Timer(props: {
   timerValue: number;
   color: string;
-  accentColor: string;
+  name: string;
 }) {
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
+
+  // tracker for whether timer is active
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  // on initialization set timer to inactive
+  useEffect(() => {
+    setTimeout(function () {
+      if (timerControls != null && timerControls.current != null) {
+        timerControls.current.pause();
+      }
+    }, 1000);
+  }, []);
+
+  // handle button press for each button
+  // settings btn
+  const openSettings = () => {
+    addHapticFeedback("light");
+    alert("settings");
+  };
+
+  // play & pause btn
+  const toggleTimer = () => {
+    // toggle play or pause button
+    setIsEnabled(!isEnabled);
+    addHapticFeedback("light");
+    if (timerControls != null && timerControls.current != null) {
+      if (isEnabled) {
+        timerControls.current.pause();
+      } else {
+        timerControls.current.play();
+      }
+    }
+  };
+
+  // restart btn
+  const restartTimer = () => {
+    // deactivate timer
+    setIsEnabled(false);
+    addHapticFeedback("light");
+    if (timerControls != null && timerControls.current != null) {
+      timerControls.current.reAnimate();
+      timerControls.current.pause();
+    }
+  };
+
+  function timerCompleted() {
+    if (props.name == "work") {
+      alert("Congrats! Nice work!");
+    }
+    if (props.name == "short_break") {
+      alert("Feeling Refreshed? Let's get back to work!");
+    }
+    if (props.name == "long_break") {
+      alert("Let's keep working hard! You've got this!");
+    }
+  }
 
   return (
     <View>
@@ -40,23 +99,27 @@ export default function Timer(props: {
           }}
           duration={props.timerValue * 1000}
           progressValueStyle={styles.text}
+          onAnimationComplete={timerCompleted}
         />
       </View>
       <View style={styles.buttonList}>
         <ActionButton
           name="settings"
           themeColor={props.color}
-          timerReference={timerControls}
+          buttonAction={openSettings}
+          isTimerEnabled={isEnabled}
         />
         <ActionButton
           name="play"
           themeColor={props.color}
-          timerReference={timerControls}
+          buttonAction={toggleTimer}
+          isTimerEnabled={isEnabled}
         />
         <ActionButton
           name="restart"
           themeColor={props.color}
-          timerReference={timerControls}
+          buttonAction={restartTimer}
+          isTimerEnabled={isEnabled}
         />
       </View>
     </View>

@@ -13,7 +13,7 @@ export default function PomodoroPage({ itemData }: { itemData: any }) {
       <Timer
         timerValue={itemData.timerValue}
         color={itemData.primaryColor}
-        accentColor={itemData.accentColor}
+        name={itemData.name}
       />
     </View>
   );

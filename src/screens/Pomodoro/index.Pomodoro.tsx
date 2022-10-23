@@ -7,10 +7,6 @@ import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
 import COLORS from "../../res/colors/Colors";
 
-// const Pomodoro = () => {
-//   return <SafeAreaView style={styles.container}></SafeAreaView>;
-// };
-
 export default function Pomodoro() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;

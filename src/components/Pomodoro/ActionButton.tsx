@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import addHapticFeedback from "../../../helpers/HapticFeedback";
 import COLORS from "../../res/colors/Colors";
 import { PlayIcon, RestartIcon, SettingsIcon } from "../Icons";
 
@@ -12,40 +10,15 @@ const buttonSize = 75;
 export const ActionButton = (props: {
   name: string;
   themeColor: string;
-  timerReference: any;
+  buttonAction: any;
+  isTimerEnabled: boolean;
 }) => {
-  // tracker for whether timer is active
-  const [isEnabled, setIsEnabled] = useState(false);
-  // handle button press for each button
-  const openSettings = () => {
-    addHapticFeedback("light");
-    alert("settings");
-  };
-  const activateTimer = () => {
-    addHapticFeedback("light");
-    console.log(isEnabled);
-    if (isEnabled) {
-      props.timerReference.current.play();
-    } else {
-      props.timerReference.current.pause();
-    }
-    // toggle play or pause button
-    setIsEnabled((isEnabled) => !isEnabled);
-  };
-  const restartTimer = () => {
-    addHapticFeedback("light");
-    props.timerReference.current.reAnimate();
-    setIsEnabled((isEnabled) => (isEnabled = false));
-    console.log(isEnabled);
-    activateTimer();
-  };
-
   // define type of action button based on prop passed
   if (props.name === "settings") {
     return (
       <TouchableOpacity
         style={[styles.button, { backgroundColor: props.themeColor }]}
-        onPress={() => openSettings()}
+        onPress={props.buttonAction}
       >
         <SettingsIcon size={iconSize} fillColor={iconColor} />
       </TouchableOpacity>
@@ -54,16 +27,20 @@ export const ActionButton = (props: {
     return (
       <TouchableOpacity
         style={[styles.button, { backgroundColor: props.themeColor }]}
-        onPress={() => activateTimer()}
+        onPress={props.buttonAction}
       >
-        <PlayIcon size={iconSize} fillColor={iconColor} isEnabled={isEnabled} />
+        <PlayIcon
+          size={iconSize}
+          fillColor={iconColor}
+          isTimerEnabled={props.isTimerEnabled}
+        />
       </TouchableOpacity>
     );
   } else if (props.name === "restart") {
     return (
       <TouchableOpacity
         style={[styles.button, { backgroundColor: props.themeColor }]}
-        onPress={() => restartTimer()}
+        onPress={props.buttonAction}
       >
         <RestartIcon size={iconSize} fillColor={iconColor} />
       </TouchableOpacity>

@@ -7,22 +7,24 @@ const pageData = [
     subtitle: STRINGS.pomodoroTitleFocusSub,
     title: STRINGS.pomodoroTitleFocusMain,
     primaryColor: COLORS.blue,
-    timerValue: 1500,
+    timerValue: 1501,
+    name: "work"
   },
   {
     id: "2",
     subtitle: STRINGS.pomodoroTitleShortBreakSub,
     title: STRINGS.pomodoroTitleShortBreakMain,    
     primaryColor: COLORS.green,    
-    timerValue: 300,
-
+    timerValue: 301,
+    name: "short_break"
   },
   {
     id: "3",
     subtitle: STRINGS.pomodoroTitleLongBreakSub,
     title: STRINGS.pomodoroTitleLongBreakMain,    
     primaryColor: COLORS.orange,
-    timerValue: 1200,
+    timerValue: 120,
+    name: "long_break"
   }   
 
 ]
