@@ -1,28 +1,52 @@
-import { useFonts } from "@expo-google-fonts/nunito";
-import AppLoading from "expo-app-loading";
 import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navigation from "./src/components/navigation/BottomTabNavigation";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback, useEffect, useState } from "react";
+import * as Font from "expo-font";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
-    "Nunito-Black": require("./assets/fonts/Nunito-Black.ttf"),
-    "Nunito-ExtraBold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
-    "Nunito-Medium": require("./assets/fonts/Nunito-Medium.ttf"),
-    "Nunito-Regular": require("./assets/fonts/Nunito-Regular.ttf"),
-    "Nunito-SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
-  });
+  const [appIsReady, setAppIsReady] = useState(false);
 
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView>
-        <AppLoading />
-      </SafeAreaView>
-    );
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync({
+          "Nunito-Black": require("./assets/fonts/Nunito-Black.ttf"),
+          "Nunito-ExtraBold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
+          "Nunito-Medium": require("./assets/fonts/Nunito-Medium.ttf"),
+          "Nunito-Regular": require("./assets/fonts/Nunito-Regular.ttf"),
+          "Nunito-SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
+        });
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar barStyle="dark-content" />
       <Navigation></Navigation>
     </SafeAreaView>
