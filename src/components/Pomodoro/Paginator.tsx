@@ -1,4 +1,4 @@
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import COLORS from "../../res/colors/Colors";
 import Animated from "react-native-reanimated";
