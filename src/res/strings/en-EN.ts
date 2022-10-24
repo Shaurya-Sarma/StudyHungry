@@ -5,6 +5,9 @@ const STRINGS = {
   pomodoroTitleShortBreakMain : "breathe.",
   pomodoroTitleLongBreakSub: "Nice work!",
   pomodoroTitleLongBreakMain: "Relax :)",
+  agendaTitle: "Daily Agenda",
+  agendaHeadingOne: "Todo",
+  agendaHeadingTwo: "Goals:",
 }
 
 export default STRINGS;

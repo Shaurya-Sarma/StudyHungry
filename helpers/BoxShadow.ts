@@ -15,6 +15,7 @@ const generateBoxShadowStyle = (
       shadowOffset: {width: xOffset, height: yOffset},
       shadowOpacity,
       shadowRadius,
+      zIndex: 999,
     };
   } else if (Platform.OS === 'android') {
     return {

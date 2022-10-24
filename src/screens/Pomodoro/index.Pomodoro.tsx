@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FocusedStatusBar from "../../components/FocusedStatusBar";
 import pageData from "../../components/Pomodoro/pages";
 import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
@@ -28,28 +29,31 @@ export default function Pomodoro() {
   const slidesRef = useRef(null);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Paginator data={pageData} dotIndex={currentIndex} />
-      <View style={{ flex: 3 }}>
-        <FlatList
-          data={pageData}
-          renderItem={({ item }) => <PomodoroPage itemData={item} />}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          bounces={false}
-          keyExtractor={(item) => item.id}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-          scrollEventThrottle={32}
-          onViewableItemsChanged={_onViewableItemsChanged}
-          viewabilityConfig={viewConfig}
-          ref={slidesRef}
-        />
-      </View>
-    </SafeAreaView>
+    <>
+      <FocusedStatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.container}>
+        <Paginator data={pageData} dotIndex={currentIndex} />
+        <View style={{ flex: 3 }}>
+          <FlatList
+            data={pageData}
+            renderItem={({ item }) => <PomodoroPage itemData={item} />}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+            keyExtractor={(item) => item.id}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: false }
+            )}
+            scrollEventThrottle={32}
+            onViewableItemsChanged={_onViewableItemsChanged}
+            viewabilityConfig={viewConfig}
+            ref={slidesRef}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
 

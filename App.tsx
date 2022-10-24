@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navigation from "./src/components/navigation/BottomTabNavigation";
 import * as SplashScreen from "expo-splash-screen";
@@ -47,7 +47,6 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-      <StatusBar barStyle="dark-content" />
       <Navigation></Navigation>
     </SafeAreaView>
   );
