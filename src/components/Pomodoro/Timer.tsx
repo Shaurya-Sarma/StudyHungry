@@ -74,6 +74,7 @@ export default function Timer(props: {
     if (props.name == "long_break") {
       alert("Let's keep working hard! You've got this!");
     }
+    restartTimer();
   }
 
   return (
@@ -101,7 +102,7 @@ export default function Timer(props: {
               ("0" + Math.floor(seconds % 60)).slice(-2)
             );
           }}
-          duration={props.timerValue * 1000}
+          duration={props.timerValue * 10}
           progressValueStyle={styles.text}
           onAnimationComplete={timerCompleted}
         />
