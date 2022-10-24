@@ -23,7 +23,7 @@ const pageData = [
     subtitle: STRINGS.pomodoroTitleLongBreakSub,
     title: STRINGS.pomodoroTitleLongBreakMain,    
     primaryColor: COLORS.orange,
-    timerValue: 120,
+    timerValue: 1201,
     name: "long_break"
   }   
 

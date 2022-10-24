@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useRef, useState } from "react";
 import { View } from "react-native";
 import { FlatList, StyleSheet, Animated } from "react-native";
@@ -12,9 +13,14 @@ export default function Pomodoro() {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   // current index is set to the index of the page on screen
-  const viewableItemsChanged = useRef(({ viewableItems }: any) => {
+  const _onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
+    // console.log("Before setState index: " + viewableItems[0].index);
     setCurrentIndex(viewableItems[0].index);
-  }).current;
+    // console.log("After setState index: " + currentIndex);
+    // console.log(
+    //   "---------------------------------------------------------------"
+    // );
+  }, []);
 
   // next screen needs to be at least 50% visible before changing
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
@@ -23,7 +29,7 @@ export default function Pomodoro() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Paginator data={pageData} dotIndex={scrollX} />
+      <Paginator data={pageData} dotIndex={currentIndex} />
       <View style={{ flex: 3 }}>
         <FlatList
           data={pageData}
@@ -38,7 +44,7 @@ export default function Pomodoro() {
             { useNativeDriver: false }
           )}
           scrollEventThrottle={32}
-          onViewableItemsChanged={viewableItemsChanged}
+          onViewableItemsChanged={_onViewableItemsChanged}
           viewabilityConfig={viewConfig}
           ref={slidesRef}
         />

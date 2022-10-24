@@ -25,10 +25,11 @@ export default function Timer(props: {
       if (timerControls != null && timerControls.current != null) {
         timerControls.current.pause();
       }
-    }, 1000);
+    }, 100);
   }, []);
 
   // handle button press for each button
+  // ---------------------------------------------------------------
   // settings btn
   const openSettings = () => {
     addHapticFeedback("light");
@@ -60,9 +61,12 @@ export default function Timer(props: {
     }
   };
 
+  // display alert message for user when pomodoro finished
+  // ---------------------------------------------------------------
+
   function timerCompleted() {
     if (props.name == "work") {
-      alert("Congrats! Nice work!");
+      alert("Congrats! Nice work! Take a break :D");
     }
     if (props.name == "short_break") {
       alert("Feeling Refreshed? Let's get back to work!");
