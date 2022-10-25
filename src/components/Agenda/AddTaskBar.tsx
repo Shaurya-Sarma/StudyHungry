@@ -1,13 +1,12 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-svg";
+import { StyleSheet, Text, View } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 
 export default function AddTaskBar() {
   return (
-    <View style={[styles.itemBar, styles.itemBarBoxShadow]}>
-      <Text>Set your next goal...</Text>
+    <View style={[styles.itemBarBoxShadow, styles.itemBar]}>
+      <Text style={styles.itemBarText}>Set your next goal...</Text>
     </View>
   );
 }
@@ -15,21 +14,27 @@ export default function AddTaskBar() {
 const styles = StyleSheet.create({
   itemBar: {
     height: 50,
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.white,
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-start",
     marginHorizontal: 30,
-    marginVertical: 12,
+    marginVertical: 30,
     borderRadius: 50,
+    paddingHorizontal: 20,
   },
   itemBarBoxShadow: generateBoxShadowStyle(
     0,
     0,
     COLORS.black,
-    0.1,
-    20,
+    0.15,
+    10,
     5,
     COLORS.black10
   ),
+  itemBarText: {
+    fontSize: 16,
+    color: COLORS.purple,
+    fontFamily: "Nunito-Regular",
+  },
 });

@@ -7,6 +7,7 @@ import CircularProgress, {
 } from "react-native-circular-progress-indicator";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { ActionButton } from "./ActionButton";
+import SettingsModal from "./SettingsModal";
 
 export default function Timer(props: {
   timerValue: number;
@@ -18,6 +19,8 @@ export default function Timer(props: {
 
   // tracker for whether timer is active
   const [isEnabled, setIsEnabled] = useState(false);
+  // show settings menu
+  const [isSettingsVisible, setSettingsIsVisible] = useState(false);
 
   // on initialization set timer to inactive
   useEffect(() => {
@@ -120,6 +123,7 @@ export default function Timer(props: {
           buttonAction={toggleTimer}
           isTimerEnabled={isEnabled}
         />
+        <SettingsModal isSettingsVisible={isSettingsVisible} />
         <ActionButton
           name="restart"
           themeColor={props.color}

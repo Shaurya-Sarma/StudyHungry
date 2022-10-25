@@ -6,7 +6,7 @@ import COLORS from "../../res/colors/Colors";
 export default function TaskItem() {
   return (
     <View style={[styles.listItem, styles.listItemBoxShadow]}>
-      <Text>LIST OF TASKS</Text>
+      <Text style={styles.listItemText}>read this book and go to sleep</Text>
     </View>
   );
 }
@@ -14,8 +14,8 @@ export default function TaskItem() {
 const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
-    height: 50,
-    backgroundColor: COLORS.blue,
+    height: 47.5,
+    backgroundColor: COLORS.white,
     alignItems: "center",
     justifyContent: "flex-start",
     marginHorizontal: 30,
@@ -27,9 +27,14 @@ const styles = StyleSheet.create({
     0,
     0,
     COLORS.black,
-    0.1,
-    20,
+    0.15,
+    10,
     5,
     COLORS.black10
   ),
+  listItemText: {
+    fontSize: 16,
+    color: COLORS.black,
+    fontFamily: "Nunito-Medium",
+  },
 });
