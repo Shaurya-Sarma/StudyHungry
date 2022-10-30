@@ -36,7 +36,7 @@ export default function Timer(props: {
   // settings btn
   const openSettings = () => {
     addHapticFeedback("light");
-    alert("settings");
+    setSettingsIsVisible(true);
   };
 
   // play & pause btn
@@ -123,7 +123,10 @@ export default function Timer(props: {
           buttonAction={toggleTimer}
           isTimerEnabled={isEnabled}
         />
-        <SettingsModal isSettingsVisible={isSettingsVisible} />
+        <SettingsModal
+          isSettingsVisible={isSettingsVisible}
+          setSettingsIsVisible={setSettingsIsVisible}
+        />
         <ActionButton
           name="restart"
           themeColor={props.color}
