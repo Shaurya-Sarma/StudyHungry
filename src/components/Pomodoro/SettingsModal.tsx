@@ -1,6 +1,5 @@
 import { Text, View } from "react-native";
 import { StyleSheet } from "react-native";
-import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import { RadioButton, Button } from "react-native-paper";
 import { useState } from "react";

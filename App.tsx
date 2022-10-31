@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Navigation from "./src/components/navigation/BottomTabNavigation";
+import Navigation from "./src/components/Navigation/BottomTabNavigation";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import * as Font from "expo-font";
+import GyroscopeObserver from "./src/components/GryoscopeObserver";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,9 +22,6 @@ export default function App() {
           "Nunito-Regular": require("./assets/fonts/Nunito-Regular.ttf"),
           "Nunito-SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
         });
-        // Artificially delay for two seconds to simulate a slow loading
-        // experience. Please remove this if you copy and paste the code!
-        await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
       } finally {
@@ -47,6 +45,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+      <GyroscopeObserver />
       <Navigation></Navigation>
     </SafeAreaView>
   );
