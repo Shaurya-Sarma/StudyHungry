@@ -4,69 +4,74 @@ import COLORS from "../../res/colors/Colors";
 import { RadioButton, Button } from "react-native-paper";
 import { useState } from "react";
 import Modal from "react-native-modal";
+import { Accelerometer } from "expo-sensors";
+import AccelerometerObserver from "../AccelerometerObserver";
 
 export default function SettingsModal(props: any) {
   // determine state of pomodoro focus mode
   const [focusMode, setFocusMode] = useState("Off");
 
   return (
-    <Modal
-      animationIn="slideInUp"
-      animationOut="slideOutDown"
-      onBackdropPress={() => props.setSettingsIsVisible(false)}
-      hideModalContentWhileAnimating={true}
-      useNativeDriver={true}
-      isVisible={props.isSettingsVisible}
-    >
-      <View style={styles.modalContainer}>
-        <Text style={styles.title}>Focus Mode</Text>
-        <RadioButton.Group
-          onValueChange={(focusMode) => setFocusMode(focusMode)}
-          value={focusMode}
-        >
-          <RadioButton.Item
-            label="Off"
-            value="Off"
-            style={focusMode == "Off" ? styles.labelSelected : null}
-            color={COLORS.purple}
-          />
-          <RadioButton.Item
-            label="Flip Phone"
-            value="Flip"
-            style={focusMode == "Flip" ? styles.labelSelected : null}
-            color={COLORS.purple}
-          />
-          <RadioButton.Item
-            label="Lockdown"
-            value="Lockdown"
-            style={focusMode == "Lockdown" ? styles.labelSelected : null}
-            color={COLORS.purple}
-          />
-        </RadioButton.Group>
-        <View style={styles.buttonList}>
-          <Button
-            uppercase
-            mode="text"
-            textColor={COLORS.blue}
-            labelStyle={styles.buttonText}
-            onPress={() => props.setSettingsIsVisible(false)}
+    <>
+      <Modal
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        onBackdropPress={() => props.setSettingsIsVisible(false)}
+        hideModalContentWhileAnimating={true}
+        useNativeDriver={true}
+        isVisible={props.isSettingsVisible}
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.title}>Focus Mode</Text>
+          <RadioButton.Group
+            onValueChange={(focusMode) => setFocusMode(focusMode)}
+            value={focusMode}
           >
-            Exit
-          </Button>
-          <Button
-            uppercase
-            textColor={COLORS.blue}
-            labelStyle={styles.buttonText}
-            onPress={() => {
-              props.setSettingsIsVisible(false);
-              // TODO SAVE THE FOCUS MODE SETTINGS
-            }}
-          >
-            Confirm
-          </Button>
+            <RadioButton.Item
+              label="Off"
+              value="Off"
+              style={focusMode == "Off" ? styles.labelSelected : null}
+              color={COLORS.purple}
+            />
+            <RadioButton.Item
+              label="Flip Phone"
+              value="Flip"
+              style={focusMode == "Flip" ? styles.labelSelected : null}
+              color={COLORS.purple}
+            />
+            <RadioButton.Item
+              label="Lockdown"
+              value="Lockdown"
+              style={focusMode == "Lockdown" ? styles.labelSelected : null}
+              color={COLORS.purple}
+            />
+          </RadioButton.Group>
+          <View style={styles.buttonList}>
+            <Button
+              uppercase
+              mode="text"
+              textColor={COLORS.blue}
+              labelStyle={styles.buttonText}
+              onPress={() => props.setSettingsIsVisible(false)}
+            >
+              Exit
+            </Button>
+            <Button
+              uppercase
+              textColor={COLORS.blue}
+              labelStyle={styles.buttonText}
+              onPress={() => {
+                props.setSettingsIsVisible(false);
+                // TODO SAVE THE FOCUS MODE SETTINGS
+              }}
+            >
+              Confirm
+            </Button>
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+      <AccelerometerObserver focusMode={focusMode} />
+    </>
   );
 }
 

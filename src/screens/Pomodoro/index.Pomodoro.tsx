@@ -14,14 +14,17 @@ export default function Pomodoro() {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   // current index is set to the index of the page on screen
-  const _onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
-    // console.log("Before setState index: " + viewableItems[0].index);
-    setCurrentIndex(viewableItems[0].index);
-    // console.log("After setState index: " + currentIndex);
-    // console.log(
-    //   "---------------------------------------------------------------"
-    // );
-  }, []);
+  const _onViewableItemsChanged = useCallback(
+    ({ viewableItems, changed }: any) => {
+      // console.log("Before setState index: " + viewableItems[0].index);
+      setCurrentIndex(viewableItems[0].index);
+      // console.log("After setState index: " + currentIndex);
+      // console.log(
+      //   "---------------------------------------------------------------"
+      // );
+    },
+    []
+  );
 
   // next screen needs to be at least 50% visible before changing
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;

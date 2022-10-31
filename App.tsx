@@ -4,7 +4,6 @@ import Navigation from "./src/components/Navigation/BottomTabNavigation";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import * as Font from "expo-font";
-import GyroscopeObserver from "./src/components/GryoscopeObserver";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,7 +44,6 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-      <GyroscopeObserver />
       <Navigation></Navigation>
     </SafeAreaView>
   );
