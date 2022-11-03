@@ -2,14 +2,13 @@ import { Text, View } from "react-native";
 import { StyleSheet } from "react-native";
 import COLORS from "../../res/colors/Colors";
 import { RadioButton, Button } from "react-native-paper";
-import { useState } from "react";
+import { useContext } from "react";
 import Modal from "react-native-modal";
-import { Accelerometer } from "expo-sensors";
-import AccelerometerObserver from "../AccelerometerObserver";
+import { TimerContext } from "../../contexts/TimerContext";
 
 export default function SettingsModal(props: any) {
-  // determine state of pomodoro focus mode
-  const [focusMode, setFocusMode] = useState("Off");
+  // import timer variables
+  const { focusMode, setFocusMode } = useContext(TimerContext);
 
   return (
     <>
@@ -70,7 +69,6 @@ export default function SettingsModal(props: any) {
           </View>
         </View>
       </Modal>
-      <AccelerometerObserver focusMode={focusMode} />
     </>
   );
 }

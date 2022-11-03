@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
-import { ActionButton } from "./ActionButton";
+import { TimerContext } from "../../contexts/TimerContext";
+import AccelerometerObserver from "./AccelerometerObserver";
+import ActionButton from "./ActionButton";
 import SettingsModal from "./SettingsModal";
 
 export default function Timer(props: {
@@ -14,11 +14,12 @@ export default function Timer(props: {
   color: string;
   name: string;
 }) {
+  // import timer variables
+  const { isTimerEnabled, setIsTimerEnabled } = useContext(TimerContext);
+
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
 
-  // tracker for whether timer is active
-  const [isEnabled, setIsEnabled] = useState(false);
   // show settings menu
   const [isSettingsVisible, setSettingsIsVisible] = useState(false);
 
@@ -42,10 +43,10 @@ export default function Timer(props: {
   // play & pause btn
   const toggleTimer = () => {
     // toggle play or pause button
-    setIsEnabled(!isEnabled);
+    setIsTimerEnabled(!isTimerEnabled);
     addHapticFeedback("light");
     if (timerControls != null && timerControls.current != null) {
-      if (isEnabled) {
+      if (isTimerEnabled) {
         timerControls.current.pause();
       } else {
         timerControls.current.play();
@@ -56,7 +57,7 @@ export default function Timer(props: {
   // restart btn
   const restartTimer = () => {
     // deactivate timer
-    setIsEnabled(false);
+    setIsTimerEnabled(false);
     addHapticFeedback("light");
     if (timerControls != null && timerControls.current != null) {
       timerControls.current.reAnimate();
@@ -111,29 +112,34 @@ export default function Timer(props: {
         />
       </View>
       <View style={styles.buttonList}>
-        <ActionButton
-          name="settings"
-          themeColor={props.color}
-          buttonAction={openSettings}
-          isTimerEnabled={isEnabled}
-        />
+        {props.name == "work" ? (
+          <>
+            <ActionButton
+              name="settings"
+              themeColor={props.color}
+              buttonAction={openSettings}
+            />
+            <SettingsModal
+              isSettingsVisible={isSettingsVisible}
+              setSettingsIsVisible={setSettingsIsVisible}
+            />
+          </>
+        ) : (
+          <></>
+        )}
         <ActionButton
           name="play"
           themeColor={props.color}
           buttonAction={toggleTimer}
-          isTimerEnabled={isEnabled}
         />
-        <SettingsModal
-          isSettingsVisible={isSettingsVisible}
-          setSettingsIsVisible={setSettingsIsVisible}
-        />
+
         <ActionButton
           name="restart"
           themeColor={props.color}
           buttonAction={restartTimer}
-          isTimerEnabled={isEnabled}
         />
       </View>
+      <AccelerometerObserver timerName={props.name} />
     </View>
   );
 }
@@ -146,8 +152,9 @@ const styles = StyleSheet.create({
   buttonList: {
     flexDirection: "row",
     marginBottom: 125,
+    justifyContent: "center",
   },
   timer: {
-    marginVertical: 25,
+    marginTop: 25,
   },
 });

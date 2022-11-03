@@ -7,12 +7,11 @@ const iconSize = 45;
 const iconColor = COLORS.pureWhite;
 const buttonSize = 75;
 
-export const ActionButton = (props: {
+export default function ActionButton(props: {
   name: string;
   themeColor: string;
   buttonAction: any;
-  isTimerEnabled: boolean;
-}) => {
+}) {
   // define type of action button based on prop passed
   if (props.name === "settings") {
     return (
@@ -29,11 +28,7 @@ export const ActionButton = (props: {
         style={[styles.button, { backgroundColor: props.themeColor }]}
         onPress={props.buttonAction}
       >
-        <PlayIcon
-          size={iconSize}
-          fillColor={iconColor}
-          isTimerEnabled={props.isTimerEnabled}
-        />
+        <PlayIcon size={iconSize} fillColor={iconColor} />
       </TouchableOpacity>
     );
   } else if (props.name === "restart") {
@@ -48,7 +43,7 @@ export const ActionButton = (props: {
   } else {
     return <View />;
   }
-};
+}
 
 const styles = StyleSheet.create({
   button: {

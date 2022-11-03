@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import { View } from "react-native";
 import { FlatList, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,9 +7,15 @@ import FocusedStatusBar from "../../components/FocusedStatusBar";
 import pageData from "../../components/Pomodoro/pages";
 import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
+import SnackbarMessage from "../../components/SnackbarMessage";
+import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 
 export default function Pomodoro() {
+  // import timer variables
+  const { isSnackbarVisible } = useContext(TimerContext);
+  console.log(isSnackbarVisible);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -55,6 +61,7 @@ export default function Pomodoro() {
             ref={slidesRef}
           />
         </View>
+        {isSnackbarVisible ? <SnackbarMessage /> : <></>}
       </SafeAreaView>
     </>
   );

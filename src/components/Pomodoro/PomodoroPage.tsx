@@ -5,17 +5,19 @@ export default function PomodoroPage({ itemData }: { itemData: any }) {
   const windowWidth = useWindowDimensions();
 
   return (
-    <View style={[styles.container, windowWidth]}>
-      <Text style={[styles.subtitle]}>{itemData.subtitle}</Text>
-      <Text style={[styles.title, { color: itemData.primaryColor }]}>
-        {itemData.title}
-      </Text>
-      <Timer
-        timerValue={itemData.timerValue}
-        color={itemData.primaryColor}
-        name={itemData.name}
-      />
-    </View>
+    <>
+      <View style={[styles.container, windowWidth]}>
+        <Text style={[styles.subtitle]}>{itemData.subtitle}</Text>
+        <Text style={[styles.title, { color: itemData.primaryColor }]}>
+          {itemData.title}
+        </Text>
+        <Timer
+          timerValue={itemData.timerValue}
+          color={itemData.primaryColor}
+          name={itemData.name}
+        />
+      </View>
+    </>
   );
 }
 

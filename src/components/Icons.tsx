@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import Svg, { Path } from "react-native-svg";
+import { TimerContext } from "../contexts/TimerContext";
+import { useContext } from "react";
 
 export const PomodoroIcon = (props: {
   size: number;
@@ -108,12 +109,11 @@ export const SettingsIcon = (props: { size: number; fillColor: string }) => {
   );
 };
 
-export const PlayIcon = (props: {
-  size: number;
-  fillColor: string;
-  isTimerEnabled: boolean;
-}) => {
-  return props.isTimerEnabled ? (
+export const PlayIcon = (props: { size: number; fillColor: string }) => {
+  // define timer variables
+  const { isTimerEnabled } = useContext(TimerContext);
+
+  return isTimerEnabled ? (
     <Svg width={props.size} height={props.size} viewBox="0 0 40 40">
       <Path
         d="M25 31.6666C24.0833 31.6666 23.2989 31.3405 22.6467 30.6883C21.9933 30.035 21.6667 29.25 21.6667 28.3333V11.6666C21.6667 10.75 21.9933 9.96553 22.6467 9.31331C23.2989 8.65998 24.0833 8.33331 25 8.33331H28.3333C29.25 8.33331 30.035 8.65998 30.6883 9.31331C31.3406 9.96553 31.6667 10.75 31.6667 11.6666V28.3333C31.6667 29.25 31.3406 30.035 30.6883 30.6883C30.035 31.3405 29.25 31.6666 28.3333 31.6666H25ZM11.6667 31.6666C10.75 31.6666 9.96555 31.3405 9.31333 30.6883C8.65999 30.035 8.33333 29.25 8.33333 28.3333V11.6666C8.33333 10.75 8.65999 9.96553 9.31333 9.31331C9.96555 8.65998 10.75 8.33331 11.6667 8.33331H15C15.9167 8.33331 16.7017 8.65998 17.355 9.31331C18.0072 9.96553 18.3333 10.75 18.3333 11.6666V28.3333C18.3333 29.25 18.0072 30.035 17.355 30.6883C16.7017 31.3405 15.9167 31.6666 15 31.6666H11.6667Z"
