@@ -139,7 +139,6 @@ export default function Timer(props: {
           buttonAction={restartTimer}
         />
       </View>
-      <AccelerometerObserver timerName={props.name} />
     </View>
   );
 }

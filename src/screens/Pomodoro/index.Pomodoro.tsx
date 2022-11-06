@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { FlatList, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
+import AccelerometerObserver from "../../components/Pomodoro/AccelerometerObserver";
 import pageData from "../../components/Pomodoro/pages";
 import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
@@ -13,17 +14,16 @@ import COLORS from "../../res/colors/Colors";
 
 export default function Pomodoro() {
   // import timer variables
-  const { isSnackbarVisible } = useContext(TimerContext);
-  console.log(isSnackbarVisible);
+  const { isSnackbarVisible, currentPageIndex, setCurrentPageIndex } =
+    useContext(TimerContext);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   // current index is set to the index of the page on screen
   const _onViewableItemsChanged = useCallback(
     ({ viewableItems, changed }: any) => {
       // console.log("Before setState index: " + viewableItems[0].index);
-      setCurrentIndex(viewableItems[0].index);
+      setCurrentPageIndex(viewableItems[0].index);
       // console.log("After setState index: " + currentIndex);
       // console.log(
       //   "---------------------------------------------------------------"
@@ -41,7 +41,7 @@ export default function Pomodoro() {
     <>
       <FocusedStatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <Paginator data={pageData} dotIndex={currentIndex} />
+        <Paginator data={pageData} dotIndex={currentPageIndex} />
         <View style={{ flex: 3 }}>
           <FlatList
             data={pageData}
@@ -63,6 +63,7 @@ export default function Pomodoro() {
         </View>
         {isSnackbarVisible ? <SnackbarMessage /> : <></>}
       </SafeAreaView>
+      <AccelerometerObserver />
     </>
   );
 }

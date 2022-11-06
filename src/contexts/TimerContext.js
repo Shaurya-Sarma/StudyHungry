@@ -17,6 +17,12 @@ const TimerProvider = ({ children }) => {
     "Error, timer will restart"
   );
 
+  // define current page of pomodoro
+  // 0 --> work
+  // 1 --> short break
+  // 2 --> long break
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+
   return (
     <TimerContext.Provider
       value={{
@@ -28,6 +34,8 @@ const TimerProvider = ({ children }) => {
         setIsSnackbarVisible,
         snackbarWarning,
         setSnackbarWarning,
+        currentPageIndex,
+        setCurrentPageIndex,
       }}
     >
       {children}

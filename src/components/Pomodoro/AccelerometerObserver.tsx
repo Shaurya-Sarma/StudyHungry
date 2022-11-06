@@ -9,6 +9,7 @@ export default function AccelerometerObserver(props: any) {
     focusMode,
     setIsSnackbarVisible,
     setSnackbarWarning,
+    currentPageIndex,
   } = useContext(TimerContext);
 
   const [data, setData] = useState({
@@ -62,7 +63,7 @@ export default function AccelerometerObserver(props: any) {
       !isFlipped &&
       isTimerEnabled &&
       focusMode == "Flip" &&
-      props.timerName == "work"
+      currentPageIndex == 0
     ) {
       setSnackbarWarning(
         "Please flip your phone (focus mode is enabled) or else timer will be deactivated"
