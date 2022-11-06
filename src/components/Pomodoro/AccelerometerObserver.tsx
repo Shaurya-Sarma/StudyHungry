@@ -66,7 +66,7 @@ export default function AccelerometerObserver(props: any) {
       currentPageIndex == 0
     ) {
       setSnackbarWarning(
-        "Please flip your phone (focus mode is enabled) or else timer will be deactivated"
+        "Flip Mode is activated! Timer will be deactivated soon since focus has been lost"
       );
       setIsSnackbarVisible(true);
     }

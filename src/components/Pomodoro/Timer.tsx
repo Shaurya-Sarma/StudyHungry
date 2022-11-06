@@ -5,7 +5,6 @@ import CircularProgress, {
 } from "react-native-circular-progress-indicator";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { TimerContext } from "../../contexts/TimerContext";
-import AccelerometerObserver from "./AccelerometerObserver";
 import ActionButton from "./ActionButton";
 import SettingsModal from "./SettingsModal";
 
@@ -15,7 +14,12 @@ export default function Timer(props: {
   name: string;
 }) {
   // import timer variables
-  const { isTimerEnabled, setIsTimerEnabled } = useContext(TimerContext);
+  const {
+    isTimerEnabled,
+    setIsTimerEnabled,
+    snackbarResetTimer,
+    setSnackbarResetTimer,
+  } = useContext(TimerContext);
 
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
@@ -61,7 +65,11 @@ export default function Timer(props: {
     addHapticFeedback("light");
     if (timerControls != null && timerControls.current != null) {
       timerControls.current.reAnimate();
-      timerControls.current.pause();
+      setTimeout(function () {
+        if (timerControls != null && timerControls.current != null) {
+          timerControls.current.pause();
+        }
+      }, 100);
     }
   };
 
@@ -80,6 +88,13 @@ export default function Timer(props: {
     }
     restartTimer();
   }
+
+  // reset timer when flipped focus mode countdown ends
+  useEffect(() => {
+    restartTimer();
+    alert("TIMER RESET");
+    setSnackbarResetTimer(false);
+  }, [snackbarResetTimer]);
 
   return (
     <View>
@@ -106,27 +121,23 @@ export default function Timer(props: {
               ("0" + Math.floor(seconds % 60)).slice(-2)
             );
           }}
+          // props.timerValue in milliseconds * multiply 1000 to convert to seconds (reduce factor to speed up time [dev])
           duration={props.timerValue * 10}
           progressValueStyle={styles.text}
           onAnimationComplete={timerCompleted}
         />
       </View>
       <View style={styles.buttonList}>
-        {props.name == "work" ? (
-          <>
-            <ActionButton
-              name="settings"
-              themeColor={props.color}
-              buttonAction={openSettings}
-            />
-            <SettingsModal
-              isSettingsVisible={isSettingsVisible}
-              setSettingsIsVisible={setSettingsIsVisible}
-            />
-          </>
-        ) : (
-          <></>
-        )}
+        <ActionButton
+          name="settings"
+          themeColor={props.color}
+          buttonAction={openSettings}
+        />
+        <SettingsModal
+          isSettingsVisible={isSettingsVisible}
+          setSettingsIsVisible={setSettingsIsVisible}
+        />
+
         <ActionButton
           name="play"
           themeColor={props.color}

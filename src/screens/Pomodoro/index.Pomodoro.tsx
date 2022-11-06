@@ -8,7 +8,7 @@ import AccelerometerObserver from "../../components/Pomodoro/AccelerometerObserv
 import pageData from "../../components/Pomodoro/pages";
 import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
-import SnackbarMessage from "../../components/SnackbarMessage";
+import PomodoroSnackbarMessage from "../../components/Pomodoro/PomodoroSnackbarMessage";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 
@@ -56,7 +56,7 @@ export default function Pomodoro() {
             ref={slidesRef}
           />
         </View>
-        {isSnackbarVisible ? <SnackbarMessage /> : <></>}
+        {isSnackbarVisible ? <PomodoroSnackbarMessage /> : <></>}
       </SafeAreaView>
       <AccelerometerObserver />
     </>
