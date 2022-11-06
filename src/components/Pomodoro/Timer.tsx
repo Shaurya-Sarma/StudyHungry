@@ -89,7 +89,9 @@ export default function Timer(props: {
   useEffect(() => {
     if (snackbarTriggerTimerReset.current) {
       restartTimer();
-      alert("TIMER RESET");
+      alert(
+        "Timer has been reset. Either disable focus mode or start a new focused working session"
+      );
       snackbarTriggerTimerReset.current = false;
     }
   }, [snackbarTriggerTimerReset.current]);
@@ -126,15 +128,21 @@ export default function Timer(props: {
         />
       </View>
       <View style={styles.buttonList}>
-        <ActionButton
-          name="settings"
-          themeColor={props.color}
-          buttonAction={openSettings}
-        />
-        <SettingsModal
-          isSettingsVisible={isSettingsVisible}
-          setSettingsIsVisible={setSettingsIsVisible}
-        />
+        {props.name == "work" ? (
+          <>
+            <ActionButton
+              name="settings"
+              themeColor={props.color}
+              buttonAction={openSettings}
+            />
+            <SettingsModal
+              isSettingsVisible={isSettingsVisible}
+              setSettingsIsVisible={setSettingsIsVisible}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
         <ActionButton
           name="play"
