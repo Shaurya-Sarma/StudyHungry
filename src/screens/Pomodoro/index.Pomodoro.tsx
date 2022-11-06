@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useRef, useState, useContext } from "react";
+import { useRef, useContext } from "react";
 import { View } from "react-native";
 import { FlatList, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,12 +22,7 @@ export default function Pomodoro() {
   // current index is set to the index of the page on screen
   const _onViewableItemsChanged = useCallback(
     ({ viewableItems, changed }: any) => {
-      // console.log("Before setState index: " + viewableItems[0].index);
       setCurrentPageIndex(viewableItems[0].index);
-      // console.log("After setState index: " + currentIndex);
-      // console.log(
-      //   "---------------------------------------------------------------"
-      // );
     },
     []
   );
@@ -41,7 +36,7 @@ export default function Pomodoro() {
     <>
       <FocusedStatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <Paginator data={pageData} dotIndex={currentPageIndex} />
+        <Paginator data={pageData} />
         <View style={{ flex: 3 }}>
           <FlatList
             data={pageData}
