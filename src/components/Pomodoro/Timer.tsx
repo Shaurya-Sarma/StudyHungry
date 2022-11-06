@@ -14,12 +14,8 @@ export default function Timer(props: {
   name: string;
 }) {
   // import timer variables
-  const {
-    isTimerEnabled,
-    setIsTimerEnabled,
-    snackbarResetTimer,
-    setSnackbarResetTimer,
-  } = useContext(TimerContext);
+  const { isTimerEnabled, setIsTimerEnabled, snackbarTriggerTimerReset } =
+    useContext(TimerContext);
 
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
@@ -91,10 +87,12 @@ export default function Timer(props: {
 
   // reset timer when flipped focus mode countdown ends
   useEffect(() => {
-    restartTimer();
-    alert("TIMER RESET");
-    setSnackbarResetTimer(false);
-  }, [snackbarResetTimer]);
+    if (snackbarTriggerTimerReset.current) {
+      restartTimer();
+      alert("TIMER RESET");
+      snackbarTriggerTimerReset.current = false;
+    }
+  }, [snackbarTriggerTimerReset.current]);
 
   return (
     <View>

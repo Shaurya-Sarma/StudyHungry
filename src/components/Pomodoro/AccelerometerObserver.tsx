@@ -54,7 +54,12 @@ export default function AccelerometerObserver(props: any) {
   // use accelerometer values to know if phone is flipped
   // updates every time data from accelerometer is read
   useEffect(() => {
-    data.z > 0.5 ? setIsFlipped(true) : setIsFlipped(false);
+    if (data.z > 0.5) {
+      setIsFlipped(true);
+      setIsSnackbarVisible(false);
+    } else {
+      setIsFlipped(false);
+    }
   }, [data]);
 
   // if work timer is active and flip focus mode enabled then send snackbar message when not flipped
@@ -69,6 +74,8 @@ export default function AccelerometerObserver(props: any) {
         "Flip Mode is activated! Timer will be deactivated soon since focus has been lost"
       );
       setIsSnackbarVisible(true);
+    } else {
+      setIsSnackbarVisible(false);
     }
   }, [isFlipped, isTimerEnabled]);
 

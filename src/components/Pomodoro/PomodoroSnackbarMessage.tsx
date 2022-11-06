@@ -2,7 +2,7 @@ import { Snackbar } from "react-native-paper";
 import { useContext, useState, useEffect } from "react";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Vibration } from "react-native";
 
 export default function PomodoroSnackbarMessage(props: any) {
   // import timer variables
@@ -10,35 +10,46 @@ export default function PomodoroSnackbarMessage(props: any) {
     isSnackbarVisible,
     setIsSnackbarVisible,
     snackbarWarning,
-    setSnackbarResetTimer,
+    snackbarTriggerTimerReset,
   } = useContext(TimerContext);
 
   // set up counter for (un)flipped phone countdown
   // countdown of 20 seconds
-  const [countdown, setCountdown] = useState(20);
+  const [countdown, setCountdown] = useState(5);
   let intervalID: any;
 
-  //TODO DOESNT WORK COUNTDOWN DOES NOT TICK DOWN TO 0
   // on initialize
   useEffect(() => {
+    // vibrate to notify the user
+    // 500 ms vibrate, 1000 ms pause, repeat
+    Vibration.vibrate([500, 1000], true);
     // every second reduce countdown by 1
     intervalID = setInterval(() => {
-      setCountdown(countdown - 1);
+      setCountdown((prev) => {
+        console.log("countdown: " + prev);
+        return prev - 1;
+      });
     }, 1000);
 
-    return () => clearInterval(intervalID);
+    return () => {
+      Vibration.cancel();
+      clearInterval(intervalID);
+    };
   }, []);
 
   // check if countdown has reached 0
   useEffect(() => {
     if (countdown == 0) {
-      setSnackbarResetTimer(false);
+      onDismissSnackBar();
       // restart timer in via timer.tsx
+      snackbarTriggerTimerReset.current = true;
       clearInterval(intervalID);
     }
-  }, []);
+  }, [countdown]);
 
-  const onDismissSnackBar = () => setIsSnackbarVisible(false);
+  const onDismissSnackBar = () => {
+    setIsSnackbarVisible(false);
+  };
 
   return (
     <Snackbar

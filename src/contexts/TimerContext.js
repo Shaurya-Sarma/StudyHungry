@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useRef } from "react";
 
 const TimerContext = createContext();
 
@@ -17,7 +17,7 @@ const TimerProvider = ({ children }) => {
     "Error, timer will restart"
   );
 
-  const [snackbarResetTimer, setSnackbarResetTimer] = useState(false);
+  const snackbarTriggerTimerReset = useRef(false);
 
   // define current page of pomodoro
   // 0 --> work
@@ -38,8 +38,7 @@ const TimerProvider = ({ children }) => {
         setSnackbarWarning,
         currentPageIndex,
         setCurrentPageIndex,
-        snackbarResetTimer,
-        setSnackbarResetTimer,
+        snackbarTriggerTimerReset,
       }}
     >
       {children}
