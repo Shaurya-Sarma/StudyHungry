@@ -14,8 +14,13 @@ export default function Timer(props: {
   name: string;
 }) {
   // import timer variables
-  const { isTimerEnabled, setIsTimerEnabled, snackbarTriggerTimerReset } =
-    useContext(TimerContext);
+  const {
+    isTimerEnabled,
+    setIsTimerEnabled,
+    triggerTimerReset,
+    focusMode,
+    setFocusMode,
+  } = useContext(TimerContext);
 
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
@@ -85,16 +90,23 @@ export default function Timer(props: {
     restartTimer();
   }
 
-  // reset timer when flipped focus mode countdown ends
+  // reset timer when flipped focus mode countdown ends or lockdown mode is breached
+  // ---------------------------------------------------------------
+
   useEffect(() => {
-    if (snackbarTriggerTimerReset.current) {
+    if (triggerTimerReset.current) {
       restartTimer();
-      alert(
-        "Timer has been reset. Either disable focus mode or start a new focused working session"
-      );
-      snackbarTriggerTimerReset.current = false;
+      triggerTimerReset.current = false;
+      if (focusMode == "Flip") {
+        alert(
+          "Timer has been reset. Either disable focus mode or start a new focused working session"
+        );
+      } else if (focusMode == "Lockdown") {
+        alert("Timer has been reset. Lockdown mode has been deactivated");
+        setFocusMode("Off");
+      }
     }
-  }, [snackbarTriggerTimerReset.current]);
+  }, [triggerTimerReset.current]);
 
   return (
     <View>

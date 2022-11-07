@@ -10,7 +10,7 @@ export default function PomodoroSnackbarMessage(props: any) {
     isSnackbarVisible,
     setIsSnackbarVisible,
     snackbarWarning,
-    snackbarTriggerTimerReset,
+    triggerTimerReset,
   } = useContext(TimerContext);
 
   // set up counter for (un)flipped phone countdown
@@ -42,14 +42,12 @@ export default function PomodoroSnackbarMessage(props: any) {
     if (countdown == 0) {
       onDismissSnackBar();
       // restart timer in via timer.tsx
-      snackbarTriggerTimerReset.current = true;
+      triggerTimerReset.current = true;
       clearInterval(intervalID);
     }
   }, [countdown]);
 
-  const onDismissSnackBar = () => {
-    setIsSnackbarVisible(false);
-  };
+  const onDismissSnackBar = () => setIsSnackbarVisible(false);
 
   return (
     <Snackbar
@@ -58,13 +56,6 @@ export default function PomodoroSnackbarMessage(props: any) {
       visible={isSnackbarVisible}
       onDismiss={onDismissSnackBar}
       duration={Infinity}
-      action={{
-        label: "HIDE",
-        labelStyle: { ...styles.labelStyle },
-        onPress: () => {
-          onDismissSnackBar();
-        },
-      }}
     >
       {snackbarWarning}
     </Snackbar>

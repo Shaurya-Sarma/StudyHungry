@@ -17,7 +17,7 @@ const TimerProvider = ({ children }) => {
     "Error, timer will restart"
   );
 
-  const snackbarTriggerTimerReset = useRef(false);
+  const triggerTimerReset = useRef(false);
 
   // define current page of pomodoro
   // 0 --> work
@@ -38,7 +38,7 @@ const TimerProvider = ({ children }) => {
         setSnackbarWarning,
         currentPageIndex,
         setCurrentPageIndex,
-        snackbarTriggerTimerReset,
+        triggerTimerReset,
       }}
     >
       {children}
