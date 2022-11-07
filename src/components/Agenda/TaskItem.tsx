@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { Swipeable } from "react-native-gesture-handler";
+import addHapticFeedback from "../../../helpers/HapticFeedback";
 
 export default function TaskItem(props: any) {
   return (
@@ -10,6 +12,7 @@ export default function TaskItem(props: any) {
       <View style={styles.itemLeft}>
         <BouncyCheckbox
           onPress={(b: boolean) => {
+            addHapticFeedback("light");
             props.taskItems[props.index].isChecked = b;
           }}
           isChecked={props.isChecked}
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     0,
     COLORS.black,
     0.15,
-    10,
+    5,
     5,
     COLORS.black10
   ),
