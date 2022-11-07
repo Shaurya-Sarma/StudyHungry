@@ -19,14 +19,17 @@ export default function Agenda() {
   const { width } = useWindowDimensions();
 
   // declare task state
-  const [task, setTask] = useState<any>();
+  const [task, setTask] = useState<{
+    description: "";
+    isChecked: false;
+  }>();
   const [taskItems, setTaskItems] = useState<any>([]);
 
   function handleAddTask() {
-    if (task && task.trim().length !== 0) {
+    if (task && task.description.trim().length !== 0) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
-      setTask(null);
+      setTask({ description: "", isChecked: false });
     }
   }
 
@@ -37,11 +40,25 @@ export default function Agenda() {
         <Text style={styles.title}>{STRINGS.agendaTitle}</Text>
         <View style={[styles.main, { width: width }]}>
           <Text style={styles.heading}>My Tasks</Text>
-          {taskItems.map((item: any) => {
-            return <TaskItem key={uuid.v4()} text={item} />;
-          })}
+
+          {taskItems.map(
+            (
+              task: { description: string; isChecked: boolean },
+              index: number
+            ) => {
+              return (
+                <TaskItem
+                  key={uuid.v4()}
+                  text={task?.description}
+                  isChecked={task?.isChecked}
+                  index={index}
+                  taskItems={taskItems}
+                />
+              );
+            }
+          )}
           <AddTaskBar
-            task={task}
+            taskText={task?.description}
             setTask={setTask}
             handleAddTask={handleAddTask}
           ></AddTaskBar>

@@ -5,16 +5,14 @@ import COLORS from "../../res/colors/Colors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function TaskItem(props: any) {
-  const [isChecked, setIsChecked] = useState(false);
-
   return (
     <View style={[styles.listItem, styles.listItemBoxShadow]}>
       <View style={styles.itemLeft}>
         <BouncyCheckbox
-          onPress={(isChecked: boolean) => {
-            setIsChecked(!isChecked);
+          onPress={(b: boolean) => {
+            props.taskItems[props.index].isChecked = b;
           }}
-          isChecked={isChecked}
+          isChecked={props.isChecked}
           useNativeDriver={true}
           text={props.text}
           textStyle={styles.itemText}

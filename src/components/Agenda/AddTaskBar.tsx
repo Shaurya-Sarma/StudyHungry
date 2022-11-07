@@ -23,8 +23,10 @@ export default function AddTaskBar(props: any) {
           style={styles.itemBarText}
           placeholder={"Set your next goal"}
           placeholderTextColor={COLORS.purple}
-          value={props.task}
-          onChangeText={(text) => props.setTask(text)}
+          value={props.taskText}
+          onChangeText={(text) =>
+            props.setTask({ description: text, isChecked: false })
+          }
         />
       </View>
       <View style={styles.itemBarBoxShadow}>
