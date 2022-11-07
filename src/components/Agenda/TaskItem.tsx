@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
-export default function TaskItem() {
+export default function TaskItem(props: any) {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
     <View style={[styles.listItem, styles.listItemBoxShadow]}>
-      <Text style={styles.listItemText}>read this book and go to sleep</Text>
+      <View style={styles.itemLeft}>
+        <BouncyCheckbox
+          onPress={(isChecked: boolean) => {
+            setIsChecked(!isChecked);
+          }}
+          isChecked={isChecked}
+          useNativeDriver={true}
+          text={props.text}
+          textStyle={styles.itemText}
+          style={{ maxWidth: "90%" }}
+          size={20}
+          fillColor={COLORS.green}
+        />
+      </View>
     </View>
   );
 }
@@ -14,14 +30,14 @@ export default function TaskItem() {
 const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
-    height: 47.5,
     backgroundColor: COLORS.white,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginHorizontal: 30,
     marginVertical: 12,
     borderRadius: 10,
     paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginHorizontal: 20,
   },
   listItemBoxShadow: generateBoxShadowStyle(
     0,
@@ -32,9 +48,14 @@ const styles = StyleSheet.create({
     5,
     COLORS.black10
   ),
-  listItemText: {
+  itemText: {
+    textDecorationLine: "none",
     fontSize: 16,
     color: COLORS.black,
     fontFamily: "Nunito-Medium",
+  },
+  itemLeft: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 });
