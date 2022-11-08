@@ -37,7 +37,7 @@ export default function LockdownObserver(props: any) {
         // restart timer in via timer.tsx and disable lockdown mode
         triggerTimerReset.current = true;
         setIsTimerEnabled(false);
-        //TODO WHEN TIMER IS PAUSED AND USER EXITS APP THE TIMER RESET DOESNT TRIGGER UNTIL NEW ACTION
+        //TODO WHEN TIMER IS PAUSED AND USER EXITS APP THE TIMER RESET does not  TRIGGER UNTIL NEW ACTION
       }
     } else {
       setShowLockdownSnackbar(false);

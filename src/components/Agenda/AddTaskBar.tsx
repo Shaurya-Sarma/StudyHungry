@@ -10,6 +10,7 @@ import {
 import { FAB } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
+import uuid from "react-native-uuid";
 
 export default function AddTaskBar(props: any) {
   return (
@@ -25,7 +26,11 @@ export default function AddTaskBar(props: any) {
           placeholderTextColor={COLORS.purple}
           value={props.taskText}
           onChangeText={(text) =>
-            props.setTask({ description: text, isChecked: false })
+            props.setTask({
+              description: text,
+              isChecked: false,
+              uuid: uuid.v4().toString(),
+            })
           }
         />
       </View>

@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { Swipeable } from "react-native-gesture-handler";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 
 export default function TaskItem(props: any) {
+  function updateTasks(checkedState: boolean) {
+    let itemsCopy = [...props.taskItems];
+    itemsCopy[props.index].isChecked = checkedState;
+    props.setTaskItems(itemsCopy);
+  }
+
   return (
     <View style={[styles.listItem, styles.listItemBoxShadow]}>
       <View style={styles.itemLeft}>
         <BouncyCheckbox
           onPress={(b: boolean) => {
             addHapticFeedback("light");
-            props.taskItems[props.index].isChecked = b;
+            updateTasks(b);
           }}
           isChecked={props.isChecked}
           useNativeDriver={true}
@@ -50,7 +55,6 @@ const styles = StyleSheet.create({
     COLORS.black10
   ),
   itemText: {
-    textDecorationLine: "none",
     fontSize: 16,
     color: COLORS.black,
     fontFamily: "Nunito-Medium",

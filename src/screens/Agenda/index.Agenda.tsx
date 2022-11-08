@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -13,35 +13,42 @@ import TaskItem from "../../components/Agenda/TaskItem";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
 import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
-import uuid from "react-native-uuid";
 import { ScrollView, Swipeable } from "react-native-gesture-handler";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 
 export default function Agenda() {
   const { width } = useWindowDimensions();
 
-  // declare task state
+  // declare task methods
+  //-------------------------------------------------------
   const [task, setTask] = useState<{
     description: "";
     isChecked: false;
+    uuid: string | number[];
   }>();
   const [taskItems, setTaskItems] = useState<any>([]);
 
+  // add task
   function handleAddTask() {
     if (task && task.description.trim().length !== 0) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
-      setTask({ description: "", isChecked: false });
+      setTask({ description: "", isChecked: false, uuid: uuid.v4() });
     }
   }
 
+  // delete a task
   function deleteTask(index: number) {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1);
+    removeItemValue(taskItems[index].uuid);
     setTaskItems(itemsCopy);
   }
 
   // set up swipeable and delete icon
+  //-------------------------------------------------------
   const RightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
@@ -57,6 +64,68 @@ export default function Agenda() {
     );
   };
 
+  // local storage methods
+  //-------------------------------------------------------
+  // add to local storage
+  const storeData = async (value: {
+    description: string;
+    isChecked: boolean;
+    uuid: string;
+  }) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(value.uuid, jsonValue);
+    } catch (e) {
+      console.log("Error in saving task: " + e);
+    }
+  };
+
+  // read data from local storage
+  const getData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const items = await AsyncStorage.multiGet(keys);
+      return items;
+    } catch (e) {
+      console.log("Error in retrieving tasks: " + e);
+    }
+  };
+
+  // delete data from local storage
+  const removeItemValue = async (key: any) => {
+    try {
+      await AsyncStorage.removeItem(key);
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  };
+
+  // on initialize retrieve the data
+  useEffect(() => {
+    // AsyncStorage.clear();
+    const retrieveData = async () => {
+      const dataKeyValue = await getData();
+      const data = dataKeyValue?.map((pair) => {
+        if (pair[1] !== null) {
+          return JSON.parse(pair[1]);
+        }
+      });
+      setTaskItems(data);
+    };
+
+    retrieveData();
+  }, []);
+
+  // on page destruct save the data in current state
+  useEffect(() => {
+    return () => {
+      for (let i = 0; i > taskItems.length; i++) {
+        storeData(taskItems[i]);
+      }
+    };
+  });
+
   return (
     <>
       <FocusedStatusBar barStyle="light-content" />
@@ -71,13 +140,21 @@ export default function Agenda() {
             >
               {taskItems.map(
                 (
-                  task: { description: string; isChecked: boolean },
+                  task: {
+                    description: string;
+                    isChecked: boolean;
+                    uuid: string;
+                  },
                   index: number
                 ) => {
-                  let key: any = uuid.v4();
+                  // store data to local storage - accounts for if checked
+                  if (task.uuid !== undefined) {
+                    storeData(task);
+                  }
+
                   return (
                     <Swipeable
-                      key={key}
+                      key={task.uuid}
                       overshootRight={true}
                       onSwipeableOpen={(direction: "left" | "right") => {
                         deleteTask(index);
@@ -85,11 +162,12 @@ export default function Agenda() {
                       renderRightActions={RightActions}
                     >
                       <TaskItem
-                        key={key}
+                        key={task.uuid}
                         text={task?.description}
                         isChecked={task?.isChecked}
                         index={index}
                         taskItems={taskItems}
+                        setTaskItems={setTaskItems}
                       />
                     </Swipeable>
                   );
