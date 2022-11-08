@@ -5,6 +5,7 @@ import { RadioButton, Button } from "react-native-paper";
 import { useContext } from "react";
 import Modal from "react-native-modal";
 import { TimerContext } from "../../contexts/TimerContext";
+import STRINGS from "../../res/strings/en-EN";
 
 export default function SettingsModal(props: any) {
   // import timer variables
@@ -21,25 +22,25 @@ export default function SettingsModal(props: any) {
         isVisible={props.isSettingsVisible}
       >
         <View style={styles.modalContainer}>
-          <Text style={styles.title}>Focus Mode</Text>
+          <Text style={styles.title}>{STRINGS.settingsModalTitle}</Text>
           <RadioButton.Group
             onValueChange={(focusMode) => setFocusMode(focusMode)}
             value={focusMode}
           >
             <RadioButton.Item
-              label="Off"
+              label={STRINGS.focusModeOffDescription}
               value="Off"
               style={focusMode == "Off" ? styles.labelSelected : null}
               color={COLORS.purple}
             />
             <RadioButton.Item
-              label="Flip Phone"
+              label={STRINGS.focusModeFlipDescription}
               value="Flip"
               style={focusMode == "Flip" ? styles.labelSelected : null}
               color={COLORS.purple}
             />
             <RadioButton.Item
-              label="Lockdown"
+              label={STRINGS.focusModeLockdownDescription}
               value="Lockdown"
               style={focusMode == "Lockdown" ? styles.labelSelected : null}
               color={COLORS.purple}

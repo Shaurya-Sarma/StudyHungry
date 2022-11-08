@@ -5,6 +5,7 @@ import CircularProgress, {
 } from "react-native-circular-progress-indicator";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { TimerContext } from "../../contexts/TimerContext";
+import SETTINGS from "../../res/Settings";
 import ActionButton from "./ActionButton";
 import SettingsModal from "./SettingsModal";
 
@@ -133,8 +134,7 @@ export default function Timer(props: {
               ("0" + Math.floor(seconds % 60)).slice(-2)
             );
           }}
-          // props.timerValue in milliseconds * multiply 1000 to convert to seconds (reduce factor to speed up time [dev])
-          duration={props.timerValue * 10}
+          duration={props.timerValue * SETTINGS.timerDurationMultiplier}
           progressValueStyle={styles.text}
           onAnimationComplete={timerCompleted}
         />

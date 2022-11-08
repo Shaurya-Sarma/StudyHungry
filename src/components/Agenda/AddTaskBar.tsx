@@ -11,6 +11,7 @@ import { FAB } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import uuid from "react-native-uuid";
+import STRINGS from "../../res/strings/en-EN";
 
 export default function AddTaskBar(props: any) {
   return (
@@ -22,7 +23,7 @@ export default function AddTaskBar(props: any) {
       <View style={[styles.itemBarBoxShadow, styles.itemBar]}>
         <TextInput
           style={styles.itemBarText}
-          placeholder={"Set your next goal"}
+          placeholder={STRINGS.addTaskBarDescription}
           placeholderTextColor={COLORS.purple}
           value={props.taskText}
           onChangeText={(text) =>

@@ -6,8 +6,12 @@ const STRINGS = {
   pomodoroTitleLongBreakSub: "Nice work!",
   pomodoroTitleLongBreakMain: "Relax :)",
   agendaTitle: "Daily Agenda",
-  agendaHeadingOne: "Todo",
-  agendaHeadingTwo: "Goals:",
+  agendaHeading: "My Goals",
+  addTaskBarDescription: "Set your next goal",
+  settingsModalTitle: "Focus Mode",
+  focusModeOffDescription: "Off",
+  focusModeFlipDescription: "Flip Phone",
+  focusModeLockdownDescription: "Lockdown",
 }
 
 export default STRINGS;

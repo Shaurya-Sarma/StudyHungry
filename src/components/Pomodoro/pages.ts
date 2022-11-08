@@ -1,4 +1,5 @@
 import COLORS from "../../res/colors/Colors";
+import SETTINGS from "../../res/Settings";
 import STRINGS from "../../res/strings/en-EN";
 
 const pageData = [
@@ -7,7 +8,7 @@ const pageData = [
     subtitle: STRINGS.pomodoroTitleFocusSub,
     title: STRINGS.pomodoroTitleFocusMain,
     primaryColor: COLORS.blue,
-    timerValue: 1501,
+    timerValue: SETTINGS.workTimerValue,
     name: "work"
   },
   {
@@ -15,7 +16,7 @@ const pageData = [
     subtitle: STRINGS.pomodoroTitleShortBreakSub,
     title: STRINGS.pomodoroTitleShortBreakMain,    
     primaryColor: COLORS.green,    
-    timerValue: 301,
+    timerValue: SETTINGS.shortBreakTimerValue,
     name: "short_break"
   },
   {
@@ -23,7 +24,7 @@ const pageData = [
     subtitle: STRINGS.pomodoroTitleLongBreakSub,
     title: STRINGS.pomodoroTitleLongBreakMain,    
     primaryColor: COLORS.orange,
-    timerValue: 1201,
+    timerValue: SETTINGS.longBreakTimerValue,
     name: "long_break"
   }   
 

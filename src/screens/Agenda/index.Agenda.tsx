@@ -132,7 +132,7 @@ export default function Agenda() {
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>{STRINGS.agendaTitle}</Text>
         <View style={[styles.main, { width: width }]}>
-          <Text style={styles.heading}>My Goals</Text>
+          <Text style={styles.heading}>{STRINGS.agendaHeading}</Text>
           <View style={{ height: "62.5%" }}>
             <ScrollView
               showsVerticalScrollIndicator={true}
