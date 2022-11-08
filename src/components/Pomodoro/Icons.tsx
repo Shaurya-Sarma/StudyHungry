@@ -1,5 +1,5 @@
 import Svg, { Path } from "react-native-svg";
-import { TimerContext } from "../contexts/TimerContext";
+import { TimerContext } from "../../contexts/TimerContext";
 import { useContext } from "react";
 
 export const PomodoroIcon = (props: {

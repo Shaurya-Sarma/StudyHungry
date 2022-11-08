@@ -27,6 +27,7 @@ export default function TaskItem(props: any) {
           style={{ maxWidth: "90%" }}
           size={20}
           fillColor={COLORS.green}
+          iconStyle={{ marginHorizontal: -5 }}
         />
       </View>
     </View>
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     borderRadius: 10,
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 12.5,
     marginHorizontal: 20,
   },
   listItemBoxShadow: generateBoxShadowStyle(

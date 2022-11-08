@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import COLORS from "../../res/colors/Colors";
-import { PlayIcon, RestartIcon, SettingsIcon } from "../Icons";
+import { PlayIcon, RestartIcon, SettingsIcon } from "./Icons";
 
 // styling constants
 const iconSize = 45;

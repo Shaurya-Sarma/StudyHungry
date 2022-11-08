@@ -6,7 +6,12 @@ import Agenda from "../../screens/Agenda/index.Agenda";
 import Logbook from "../../screens/Logbook/index.Logbook";
 import Pomodoro from "../../screens/Pomodoro/index.Pomodoro";
 import Tutorials from "../../screens/Tutorials/index.Tutorials";
-import { AgendaIcon, LogbookIcon, PomodoroIcon, TutorialsIcon } from "../Icons";
+import {
+  AgendaIcon,
+  LogbookIcon,
+  PomodoroIcon,
+  TutorialsIcon,
+} from "../Pomodoro/Icons";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import React from "react";
 import addLightHapticFeedback from "../../../helpers/HapticFeedback";
