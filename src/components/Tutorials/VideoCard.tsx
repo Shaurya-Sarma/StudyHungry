@@ -21,8 +21,8 @@ export default function VideoCard(props: any) {
         />
       </TouchableOpacity>
       <View style={styles.cardText}>
-        <Text style={styles.heading}>Tips for A+ Students</Text>
-        <Text style={styles.description}>Read more about it here</Text>
+        <Text style={styles.heading}>{props.title}</Text>
+        <Text style={styles.description}>{props.subtitle}</Text>
       </View>
     </View>
   );
