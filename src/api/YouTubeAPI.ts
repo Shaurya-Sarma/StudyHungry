@@ -11,6 +11,9 @@ const SEARCH_TERMS = [
   "ted%20talk%20procrastination",
   "ted%20talk%20focus",
   "ted%20talk%20stress",
+  "study%20vlog",
+  "how%20to%20study%20smart",
+  "motivational%20speech"
 ];
 
 const NUM_OF_ENTRIES = 20;
