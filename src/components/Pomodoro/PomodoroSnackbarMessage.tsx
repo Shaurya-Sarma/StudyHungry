@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 import { StyleSheet, Vibration } from "react-native";
+import SETTINGS from "../../res/Settings";
 
 export default function PomodoroSnackbarMessage(props: any) {
   // import timer variables
@@ -15,7 +16,7 @@ export default function PomodoroSnackbarMessage(props: any) {
 
   // set up counter for (un)flipped phone countdown
   // countdown of 20 seconds
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(SETTINGS.countdownInterval);
   let intervalID: any;
 
   // on initialize
@@ -26,7 +27,6 @@ export default function PomodoroSnackbarMessage(props: any) {
     // every second reduce countdown by 1
     intervalID = setInterval(() => {
       setCountdown((prev) => {
-        console.log("countdown: " + prev);
         return prev - 1;
       });
     }, 1000);

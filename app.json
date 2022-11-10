@@ -5,10 +5,10 @@
     "description": "An app that acts as a constant companion to help you battle procrastination.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/study-hungry-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/study-hungry-splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
