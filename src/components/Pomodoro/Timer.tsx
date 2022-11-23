@@ -4,6 +4,7 @@ import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
+import { SoundContext } from "../../contexts/SoundContext";
 import { TimerContext } from "../../contexts/TimerContext";
 import SETTINGS from "../../res/Settings";
 import ActionButton from "./ActionButton";
@@ -18,6 +19,9 @@ export default function Timer(props: {
   // import timer variables
   const { isTimerEnabled, setIsTimerEnabled, triggerTimerReset, focusMode } =
     useContext(TimerContext);
+
+  // import sound player
+  const { playTimerEndSound, playErrorSound } = useContext(SoundContext);
 
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
@@ -82,18 +86,20 @@ export default function Timer(props: {
   function timerCompleted() {
     setIsAlertModalVisible(true);
     if (props.name == "work") {
-      setAlertTitle("Focused Session Completed! 👏");
+      setAlertTitle("Focused Session Completed 👏");
       setAlertMessage("Congrats and nice work! Take a break :D");
     }
     if (props.name == "short_break") {
-      setAlertTitle("The Break Has Ended! ✏️");
+      setAlertTitle("The Break Has Ended ✏️");
       setAlertMessage("Feeling Refreshed? Let's get back to work!");
     }
     if (props.name == "long_break") {
-      setAlertTitle("The Break Has Ended! 📖");
+      setAlertTitle("The Break Has Ended 📖");
       setAlertMessage("Let's keep working hard! You've got this!");
     }
     restartTimer();
+    // play success sound
+    playTimerEndSound();
   }
 
   // reset timer when flipped focus mode countdown ends or lockdown mode is breached
@@ -103,12 +109,16 @@ export default function Timer(props: {
     if (triggerTimerReset.current) {
       restartTimer();
       triggerTimerReset.current = false;
+      setIsAlertModalVisible(true);
+      playErrorSound();
       if (focusMode == "Flip") {
-        alert(
-          "Timer has been reset. Either disable focus mode or start a new focused working session"
+        setAlertTitle("Timer Reset ❌");
+        setAlertMessage(
+          "Phone was not flipped in time. Please start a new focused working session."
         );
       } else if (focusMode == "Lockdown") {
-        alert("Timer has been reset. Lockdown mode has been deactivated");
+        setAlertTitle("Timer Reset ❌");
+        setAlertMessage("App was exited. Stay in the app for lockdown mode.");
       }
     }
   }, [triggerTimerReset.current]);

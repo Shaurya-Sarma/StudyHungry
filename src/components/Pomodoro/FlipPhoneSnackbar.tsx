@@ -4,11 +4,15 @@ import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 import { StyleSheet, Vibration } from "react-native";
 import SETTINGS from "../../res/Settings";
+import { SoundContext } from "../../contexts/SoundContext";
 
 export default function FlipPhoneSnackbar(props: any) {
   // import timer variables
   const { triggerTimerReset, setIsTimerEnabled, isTimerEnabled } =
     useContext(TimerContext);
+
+  // import sound player
+  const { playTimerBuzzSound } = useContext(SoundContext);
 
   // set up counter for (un)flipped phone countdown
   // countdown of 20 seconds
@@ -19,12 +23,14 @@ export default function FlipPhoneSnackbar(props: any) {
   useEffect(() => {
     // vibrate to notify the user
     // 500 ms vibrate, 1000 ms pause, repeat
-    Vibration.vibrate([500, 1000], true);
+    Vibration.vibrate([1000], true);
+
     // every second reduce countdown by 1
     intervalID = setInterval(() => {
       setCountdown((prev) => {
         return prev - 1;
       });
+      playTimerBuzzSound();
     }, 1000);
 
     return () => {
