@@ -7,6 +7,7 @@ import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { TimerContext } from "../../contexts/TimerContext";
 import SETTINGS from "../../res/Settings";
 import ActionButton from "./ActionButton";
+import AlertModal from "./AlertModal";
 import SettingsModal from "./SettingsModal";
 
 export default function Timer(props: {
@@ -15,19 +16,19 @@ export default function Timer(props: {
   name: string;
 }) {
   // import timer variables
-  const {
-    isTimerEnabled,
-    setIsTimerEnabled,
-    triggerTimerReset,
-    focusMode,
-    setFocusMode,
-  } = useContext(TimerContext);
+  const { isTimerEnabled, setIsTimerEnabled, triggerTimerReset, focusMode } =
+    useContext(TimerContext);
 
   // declare countdown timer controls
   const timerControls = useRef<ProgressRef>(null);
 
   // show settings menu
   const [isSettingsVisible, setSettingsIsVisible] = useState(false);
+
+  // show alert modal box
+  const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   // on initialization set timer to inactive
   useEffect(() => {
@@ -75,18 +76,22 @@ export default function Timer(props: {
     }
   };
 
-  // display alert message for user when pomodoro finished
+  // set alert message for user when pomodoro finished and toggle alert modal
   // ---------------------------------------------------------------
 
   function timerCompleted() {
+    setIsAlertModalVisible(true);
     if (props.name == "work") {
-      alert("Congrats! Nice work! Take a break :D");
+      setAlertTitle("Focused Session Completed! 👏");
+      setAlertMessage("Congrats and nice work! Take a break :D");
     }
     if (props.name == "short_break") {
-      alert("Feeling Refreshed? Let's get back to work!");
+      setAlertTitle("The Break Has Ended! ✏️");
+      setAlertMessage("Feeling Refreshed? Let's get back to work!");
     }
     if (props.name == "long_break") {
-      alert("Let's keep working hard! You've got this!");
+      setAlertTitle("The Break Has Ended! 📖");
+      setAlertMessage("Let's keep working hard! You've got this!");
     }
     restartTimer();
   }
@@ -104,7 +109,6 @@ export default function Timer(props: {
         );
       } else if (focusMode == "Lockdown") {
         alert("Timer has been reset. Lockdown mode has been deactivated");
-        setFocusMode("Off");
       }
     }
   }, [triggerTimerReset.current]);
@@ -168,6 +172,12 @@ export default function Timer(props: {
           buttonAction={restartTimer}
         />
       </View>
+      <AlertModal
+        title={alertTitle}
+        message={alertMessage}
+        isAlertModalVisible={isAlertModalVisible}
+        setIsAlertModalVisible={setIsAlertModalVisible}
+      ></AlertModal>
     </View>
   );
 }

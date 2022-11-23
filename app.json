@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "StudyHungry",
-    "slug": "study-hungry",
+    "slug": "studyhungry",
+    "owner": "studyhungry",
     "description": "An app that acts as a constant companion to help you battle procrastination.",
     "version": "1.0.0",
     "orientation": "portrait",

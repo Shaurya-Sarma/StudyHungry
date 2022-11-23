@@ -6,7 +6,7 @@ import { TimerContext } from "../../contexts/TimerContext";
 
 export default function LockdownObserver(props: any) {
   // import timer variables
-  const { focusMode, triggerTimerReset, setIsTimerEnabled } =
+  const { focusMode, triggerTimerReset, setIsTimerEnabled, isTimerEnabled } =
     useContext(TimerContext);
 
   // handle changes to app state or activity
@@ -36,8 +36,8 @@ export default function LockdownObserver(props: any) {
       if (currentAppState == "background") {
         // restart timer in via timer.tsx and disable lockdown mode
         triggerTimerReset.current = true;
-        setIsTimerEnabled(false);
-        //TODO WHEN TIMER IS PAUSED AND USER EXITS APP THE TIMER RESET does not  TRIGGER UNTIL NEW ACTION
+        // trigger component rerender
+        setIsTimerEnabled(!isTimerEnabled);
       }
     } else {
       setShowLockdownSnackbar(false);

@@ -13,6 +13,7 @@ const STRINGS = {
   focusModeFlipDescription: "Flip Phone",
   focusModeLockdownDescription: "Lockdown",
   tutorialsTitle: "Tutorials",
+  routinesTitle: "Routines"
 }
 
 export default STRINGS;

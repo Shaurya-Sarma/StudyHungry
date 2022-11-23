@@ -1,7 +1,7 @@
-import { Text, View } from "react-native";
+import { Text, View, Button, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import COLORS from "../../res/colors/Colors";
-import { RadioButton, Button } from "react-native-paper";
+import { RadioButton } from "react-native-paper";
 import { useContext } from "react";
 import Modal from "react-native-modal";
 import { TimerContext } from "../../contexts/TimerContext";
@@ -47,26 +47,9 @@ export default function SettingsModal(props: any) {
             />
           </RadioButton.Group>
           <View style={styles.buttonList}>
-            <Button
-              uppercase
-              mode="text"
-              textColor={COLORS.blue}
-              labelStyle={styles.buttonText}
-              onPress={() => props.setSettingsIsVisible(false)}
-            >
-              Exit
-            </Button>
-            <Button
-              uppercase
-              textColor={COLORS.blue}
-              labelStyle={styles.buttonText}
-              onPress={() => {
-                props.setSettingsIsVisible(false);
-                // TODO SAVE THE FOCUS MODE SETTINGS
-              }}
-            >
-              Confirm
-            </Button>
+            <TouchableOpacity onPress={() => props.setSettingsIsVisible(false)}>
+              <Text style={styles.buttonText}>Close</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -91,12 +74,13 @@ const styles = StyleSheet.create({
   },
   buttonList: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginTop: 20,
   },
   buttonText: {
     fontFamily: "Nunito-SemiBold",
-    fontSize: 16,
+    fontSize: 18,
+    color: COLORS.blue,
   },
   labelSelected: {
     backgroundColor: COLORS.purple10,

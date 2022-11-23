@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import COLORS from "../../res/colors/Colors";
 import Agenda from "../../screens/Agenda/index.Agenda";
-import Logbook from "../../screens/Logbook/index.Logbook";
+import Routines from "../../screens/Routines/index.Routines";
 import Pomodoro from "../../screens/Pomodoro/index.Pomodoro";
 import Tutorials from "../../screens/Tutorials/index.Tutorials";
 import {
   AgendaIcon,
-  LogbookIcon,
+  RoutinesIcon,
   PomodoroIcon,
   TutorialsIcon,
 } from "../Pomodoro/Icons";
@@ -23,7 +23,7 @@ const Tab = createBottomTabNavigator();
 const pomodoroName = "Pomodoro";
 const agendaName = "Agenda";
 const tutorialsName = "Tutorials";
-const logbookName = "Logbook";
+const routinesName = "Routines";
 // Styling constants
 const iconSize = 40;
 const iconColor = COLORS.purple;
@@ -69,9 +69,9 @@ export default function Navigation() {
                       isFocused={focused}
                     />
                   );
-                } else if (rn === logbookName) {
+                } else if (rn === routinesName) {
                   iconTag = (
-                    <LogbookIcon
+                    <RoutinesIcon
                       size={iconSize}
                       fillColor={iconColor}
                       isFocused={focused}
@@ -95,7 +95,7 @@ export default function Navigation() {
             <Tab.Screen name={pomodoroName} component={Pomodoro} />
             <Tab.Screen name={agendaName} component={Agenda} />
             <Tab.Screen name={tutorialsName} component={Tutorials} />
-            <Tab.Screen name={logbookName} component={Logbook} />
+            <Tab.Screen name={routinesName} component={Routines} />
           </Tab.Navigator>
         </NavigationContainer>
       </TimerProvider>

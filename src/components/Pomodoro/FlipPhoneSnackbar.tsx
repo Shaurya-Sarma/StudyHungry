@@ -5,14 +5,10 @@ import COLORS from "../../res/colors/Colors";
 import { StyleSheet, Vibration } from "react-native";
 import SETTINGS from "../../res/Settings";
 
-export default function PomodoroSnackbarMessage(props: any) {
+export default function FlipPhoneSnackbar(props: any) {
   // import timer variables
-  const {
-    isSnackbarVisible,
-    setIsSnackbarVisible,
-    snackbarWarning,
-    triggerTimerReset,
-  } = useContext(TimerContext);
+  const { triggerTimerReset, setIsTimerEnabled, isTimerEnabled } =
+    useContext(TimerContext);
 
   // set up counter for (un)flipped phone countdown
   // countdown of 20 seconds
@@ -43,21 +39,25 @@ export default function PomodoroSnackbarMessage(props: any) {
       onDismissSnackBar();
       // restart timer in via timer.tsx
       triggerTimerReset.current = true;
+      // trigger component rerender
+      setIsTimerEnabled(!isTimerEnabled);
+
       clearInterval(intervalID);
     }
   }, [countdown]);
 
-  const onDismissSnackBar = () => setIsSnackbarVisible(false);
+  const onDismissSnackBar = () => props.setShowFlipPhoneSnackbar(false);
 
   return (
     <Snackbar
       wrapperStyle={{ top: 0 }}
       style={styles.warning}
-      visible={isSnackbarVisible}
+      visible={props.showFlipPhoneSnackbar}
       onDismiss={onDismissSnackBar}
       duration={Infinity}
     >
-      {snackbarWarning}
+      Flip Mode is activated! Timer will be deactivated soon since focus has
+      been lost
     </Snackbar>
   );
 }

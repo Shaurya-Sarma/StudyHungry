@@ -1,16 +1,21 @@
 import { Accelerometer } from "expo-sensors";
 import { useEffect, useState, useContext } from "react";
+import { StyleSheet, Vibration } from "react-native";
+import { Snackbar } from "react-native-paper";
 import { TimerContext } from "../../contexts/TimerContext";
+import COLORS from "../../res/colors/Colors";
+import SETTINGS from "../../res/Settings";
+import FlipPhoneSnackbar from "./FlipPhoneSnackbar";
 
 export default function AccelerometerObserver(props: any) {
   // import timer variables
-  const {
-    isTimerEnabled,
-    focusMode,
-    setIsSnackbarVisible,
-    setSnackbarWarning,
-    currentPageIndex,
-  } = useContext(TimerContext);
+  const { isTimerEnabled, focusMode, currentPageIndex } =
+    useContext(TimerContext);
+
+  const [showFlipPhoneSnackbar, setShowFlipPhoneSnackbar] = useState(false);
+
+  // handle accelerometer functionality
+  // ------------------------------------------------------
 
   const [data, setData] = useState({
     x: 0,
@@ -56,7 +61,6 @@ export default function AccelerometerObserver(props: any) {
   useEffect(() => {
     if (data.z > 0.5) {
       setIsFlipped(true);
-      setIsSnackbarVisible(false);
     } else {
       setIsFlipped(false);
     }
@@ -70,14 +74,21 @@ export default function AccelerometerObserver(props: any) {
       focusMode == "Flip" &&
       currentPageIndex == 0
     ) {
-      setSnackbarWarning(
-        "Flip Mode is activated! Timer will be deactivated soon since focus has been lost"
-      );
-      setIsSnackbarVisible(true);
+      setShowFlipPhoneSnackbar(true);
     } else {
-      setIsSnackbarVisible(false);
+      setShowFlipPhoneSnackbar(false);
     }
   }, [isFlipped, isTimerEnabled]);
 
-  return <></>;
+  // handle snackbar functionality
+  // ----------------------------------------------------------
+
+  return showFlipPhoneSnackbar ? (
+    <FlipPhoneSnackbar
+      showFlipPhoneSnackbar={showFlipPhoneSnackbar}
+      setShowFlipPhoneSnackbar={setShowFlipPhoneSnackbar}
+    />
+  ) : (
+    <></>
+  );
 }

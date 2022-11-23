@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     0,
     0,
     COLORS.black,
-    0.15,
+    0.1,
     10,
     5,
     COLORS.black10

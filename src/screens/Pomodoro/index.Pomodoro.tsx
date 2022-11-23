@@ -9,13 +9,12 @@ import LockdownObserver from "../../components/Pomodoro/LockdownObserver";
 import pageData from "../../components/Pomodoro/pages";
 import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
-import PomodoroSnackbarMessage from "../../components/Pomodoro/PomodoroSnackbarMessage";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 
 export default function Pomodoro() {
   // import timer variables
-  const { isSnackbarVisible, setCurrentPageIndex } = useContext(TimerContext);
+  const { setCurrentPageIndex } = useContext(TimerContext);
 
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -56,7 +55,6 @@ export default function Pomodoro() {
             ref={slidesRef}
           />
         </View>
-        {isSnackbarVisible ? <PomodoroSnackbarMessage /> : <></>}
       </SafeAreaView>
       <AccelerometerObserver />
       <LockdownObserver />

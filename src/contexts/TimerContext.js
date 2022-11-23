@@ -9,14 +9,6 @@ const TimerProvider = ({ children }) => {
   // determine state of pomodoro focus mode
   const [focusMode, setFocusMode] = useState("Off");
 
-  // toggle the snackbar warning for timer
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-
-  // define snackbar warning for timer warning
-  const [snackbarWarning, setSnackbarWarning] = useState(
-    "Error, timer will restart"
-  );
-
   const triggerTimerReset = useRef(false);
 
   // define current page of pomodoro
@@ -32,10 +24,6 @@ const TimerProvider = ({ children }) => {
         setIsTimerEnabled,
         focusMode,
         setFocusMode,
-        isSnackbarVisible,
-        setIsSnackbarVisible,
-        snackbarWarning,
-        setSnackbarWarning,
         currentPageIndex,
         setCurrentPageIndex,
         triggerTimerReset,
