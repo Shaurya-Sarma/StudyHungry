@@ -5,7 +5,9 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
+import RoutineCard from "../../components/Routines/RoutineCard";
 import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
 
@@ -17,7 +19,18 @@ export default function Routines() {
       <FocusedStatusBar barStyle="light-content" />
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>{STRINGS.routinesTitle}</Text>
-        <View style={[styles.main, { width: width }]}></View>
+        <View style={[styles.main, { width: width }]}>
+          <View style={{ height: "80%" }}>
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              style={{ marginTop: 10 }}
+            >
+              <RoutineCard />
+              <RoutineCard />
+            </ScrollView>
+          </View>
+          {/* PUT BIG RECTANNGLE BTN */}
+        </View>
       </SafeAreaView>
     </>
   );
