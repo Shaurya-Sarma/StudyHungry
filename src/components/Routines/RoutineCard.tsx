@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { Switch } from "react-native-paper";
+import { Divider, Switch } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
   itemList: {
     flex: 1,
     flexDirection: "column",
-    marginVertical: 15,
+    marginVertical: 10,
   },
   itemRow: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 10,
   },
   text: {
     flex: 1,

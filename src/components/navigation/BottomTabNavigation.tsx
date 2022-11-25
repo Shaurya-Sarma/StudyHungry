@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import COLORS from "../../res/colors/Colors";
 import Agenda from "../../screens/Agenda/index.Agenda";
-import Routines from "../../screens/Routines/index.Routines";
 import Pomodoro from "../../screens/Pomodoro/index.Pomodoro";
 import Tutorials from "../../screens/Tutorials/index.Tutorials";
 import {
@@ -17,6 +16,7 @@ import React from "react";
 import addLightHapticFeedback from "../../../helpers/HapticFeedback";
 import { TimerProvider } from "../../contexts/TimerContext";
 import { SoundProvider } from "../../contexts/SoundContext";
+import RoutinesStackNavigator from "./RoutinesStackNavigator";
 
 // bottom navbar
 const Tab = createBottomTabNavigator();
@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 const pomodoroName = "Pomodoro";
 const agendaName = "Agenda";
 const tutorialsName = "Tutorials";
-const routinesName = "Routines";
+const routinesStackNavigatorName = "RoutinesStackNavigator";
 // Styling constants
 const iconSize = 40;
 const iconColor = COLORS.purple;
@@ -71,7 +71,7 @@ export default function Navigation() {
                         isFocused={focused}
                       />
                     );
-                  } else if (rn === routinesName) {
+                  } else if (rn === routinesStackNavigatorName) {
                     iconTag = (
                       <RoutinesIcon
                         size={iconSize}
@@ -97,7 +97,10 @@ export default function Navigation() {
               <Tab.Screen name={pomodoroName} component={Pomodoro} />
               <Tab.Screen name={agendaName} component={Agenda} />
               <Tab.Screen name={tutorialsName} component={Tutorials} />
-              <Tab.Screen name={routinesName} component={Routines} />
+              <Tab.Screen
+                name={routinesStackNavigatorName}
+                component={RoutinesStackNavigator}
+              />
             </Tab.Navigator>
           </NavigationContainer>
         </TimerProvider>

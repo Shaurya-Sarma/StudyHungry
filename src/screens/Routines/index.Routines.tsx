@@ -1,35 +1,61 @@
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import FocusedStatusBar from "../../components/FocusedStatusBar";
 import RoutineCard from "../../components/Routines/RoutineCard";
 import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
+import { AntDesign } from "@expo/vector-icons";
+import FocusedStatusBar from "../../components/FocusedStatusBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Routines() {
+export default function Routines({ navigation }: any) {
   const { width } = useWindowDimensions();
 
   return (
     <>
       <FocusedStatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>{STRINGS.routinesTitle}</Text>
-        <View style={[styles.main, { width: width }]}>
-          <View style={{ height: "80%" }}>
-            <ScrollView
-              showsVerticalScrollIndicator={true}
-              style={{ marginTop: 10 }}
+      <SafeAreaView
+        edges={["top"]}
+        style={{ flex: 0, backgroundColor: COLORS.orange }}
+      />
+      <SafeAreaView
+        edges={["left", "right", "bottom"]}
+        style={{
+          flex: 1,
+          backgroundColor: COLORS.white,
+          position: "relative",
+        }}
+      >
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <Text style={styles.title}>{STRINGS.routinesTitle}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.push("CreateRoutine");
+              }}
             >
-              <RoutineCard />
-              <RoutineCard />
-            </ScrollView>
+              <AntDesign name="pluscircle" size={44} color={COLORS.white} />
+            </TouchableOpacity>
           </View>
-          {/* PUT BIG RECTANNGLE BTN */}
+          <View style={[styles.main, { width: width }]}>
+            <View style={{ height: "72%" }}>
+              <ScrollView
+                showsVerticalScrollIndicator={true}
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                <RoutineCard />
+                <RoutineCard />
+              </ScrollView>
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => {}}>
+              <Text style={styles.buttonText}>Start Session</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
     </>
@@ -61,5 +87,26 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     marginHorizontal: 20,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  button: {
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: COLORS.orange,
+    borderRadius: 5,
+    padding: 10,
+  },
+  buttonText: {
+    fontFamily: "Nunito-ExtraBold",
+    fontSize: 18,
+    color: COLORS.white,
+    textTransform: "uppercase",
+    marginVertical: 5,
   },
 });
