@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Interval, { IntervalType } from "./Interval";
 import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function RoutineCard(props: {
   name: string;
@@ -38,10 +39,10 @@ export default function RoutineCard(props: {
           </View>
           <View style={styles.row}>
             <View style={styles.itemList}>
-              {props.intervals.slice(0, 3).map((i) => {
+              {props.intervals.slice(0, 3).map((i, index) => {
                 // displaying the first three intervals of the routine
                 return (
-                  <View style={styles.itemRow}>
+                  <View key={index} style={styles.itemRow}>
                     <Feather
                       name={i.type == IntervalType.Work ? "book" : "clock"}
                       size={30}

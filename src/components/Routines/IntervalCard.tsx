@@ -3,26 +3,35 @@ import { StyleSheet, View, Text } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import { Feather } from "@expo/vector-icons";
 import { IntervalType } from "./Interval";
-import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
+import { secondsToMS } from "../../../helpers/TimeConverter";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function IntervalCard(props: {
   type: IntervalType;
   length: number;
 }) {
   return (
-    <View style={[styles.card, styles.cardShadow]}>
-      <View style={styles.cardContent}>
-        <View style={styles.itemRow}>
-          <Feather
-            name={props.type == IntervalType.Work ? "book" : "clock"}
-            size={24}
-            color="orange"
-          />
-          <Text style={styles.text}>{IntervalType[props.type]}</Text>
-          <Text style={styles.subtext}>{secondsToMS(props.length)}</Text>
+    <>
+      <View style={[styles.card, styles.cardShadow]}>
+        <View style={styles.cardContent}>
+          <View style={styles.itemRow}>
+            <Feather
+              name={props.type == IntervalType.Work ? "book" : "clock"}
+              size={24}
+              color="orange"
+            />
+            <Text style={styles.text}>{IntervalType[props.type]}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("open");
+              }}
+            >
+              <Text style={styles.subtext}>{secondsToMS(props.length)}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 }
 

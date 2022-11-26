@@ -49,6 +49,7 @@ export default function Routines({ navigation }: any) {
             <View style={{ height: "72%" }}>
               <ScrollView
                 showsVerticalScrollIndicator={true}
+                keyboardShouldPersistTaps="always"
                 style={{ marginTop: 10, marginBottom: 10 }}
               >
                 {routines?.map((r: any, index: any) => {

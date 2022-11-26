@@ -86,6 +86,7 @@ export default function CreateRoutine({ navigation }: any) {
           <ScrollView
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
+            keyboardShouldPersistTaps="always"
             style={[isError ? styles.borderBoxError : styles.borderBox]}
           >
             {intervals.map((i, index) => {
