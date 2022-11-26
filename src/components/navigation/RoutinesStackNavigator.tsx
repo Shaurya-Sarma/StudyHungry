@@ -30,7 +30,7 @@ export default function RoutinesStackNavigator() {
                 }}
                 style={{ marginLeft: 20 }}
               >
-                <AntDesign name="arrowleft" size={28} color={COLORS.black} />
+                <AntDesign name="arrowleft" size={28} color={COLORS.purple} />
               </TouchableOpacity>
             ),
           })}

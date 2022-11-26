@@ -1,21 +1,35 @@
 import { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { Divider, Switch } from "react-native-paper";
+import { Switch } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import Interval, { IntervalType } from "./Interval";
+import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
 
-export default function RoutineCard(props: any) {
-  const [isEnabled, setIsEnabled] = useState(false);
+export default function RoutineCard(props: {
+  name: string;
+  isEnabled: boolean;
+  intervals: Interval[];
+}) {
+  const [isEnabled, setIsEnabled] = useState(props.isEnabled);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  function calculateTotalTime() {
+    let sum = 0;
+    props.intervals.forEach((i) => {
+      sum += i.length;
+    });
+    return secondsToHMS(sum);
+  }
 
   return (
     <>
       <View style={[styles.card, styles.cardShadow]}>
         <View style={styles.cardContent}>
           <View style={[styles.row, styles.borderBottom]}>
-            <Text style={styles.title}>Default</Text>
+            <Text style={styles.title}>{props.name}</Text>
             <Switch
               trackColor={{ false: COLORS.grey, true: COLORS.redOrange }}
               onValueChange={toggleSwitch}
@@ -24,25 +38,24 @@ export default function RoutineCard(props: any) {
           </View>
           <View style={styles.row}>
             <View style={styles.itemList}>
-              <View style={styles.itemRow}>
-                <Feather name="book" size={30} color="orange" />
-                <Text style={styles.text}>Work</Text>
-                <Text style={styles.subtext}>25:00</Text>
-              </View>
-              <View style={styles.itemRow}>
-                <Feather name="clock" size={30} color="orange" />
-                <Text style={styles.text}>Break</Text>
-                <Text style={styles.subtext}>10:00</Text>
-              </View>
-              <View style={styles.itemRow}>
-                <Feather name="book" size={30} color="orange" />
-                <Text style={styles.text}>Work</Text>
-                <Text style={styles.subtext}>15:00</Text>
-              </View>
+              {props.intervals.slice(0, 3).map((i) => {
+                // displaying the first three intervals of the routine
+                return (
+                  <View style={styles.itemRow}>
+                    <Feather
+                      name={i.type == IntervalType.Work ? "book" : "clock"}
+                      size={30}
+                      color="orange"
+                    />
+                    <Text style={styles.text}>{IntervalType[i.type]}</Text>
+                    <Text style={styles.subtext}>{secondsToMS(i.length)}</Text>
+                  </View>
+                );
+              })}
               <View style={styles.itemRow}>
                 <MaterialIcons name="timer" size={32} color="purple" />
                 <Text style={styles.text}>Total</Text>
-                <Text style={styles.subtext}>3:00:00</Text>
+                <Text style={styles.subtext}>{calculateTotalTime()}</Text>
               </View>
             </View>
           </View>

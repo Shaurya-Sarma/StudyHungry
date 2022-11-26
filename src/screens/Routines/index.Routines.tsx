@@ -12,9 +12,12 @@ import STRINGS from "../../res/strings/en-EN";
 import { AntDesign } from "@expo/vector-icons";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useContext } from "react";
+import { RoutineContext } from "../../contexts/RoutineContext";
 
 export default function Routines({ navigation }: any) {
   const { width } = useWindowDimensions();
+  const { routines } = useContext(RoutineContext);
 
   return (
     <>
@@ -48,8 +51,16 @@ export default function Routines({ navigation }: any) {
                 showsVerticalScrollIndicator={true}
                 style={{ marginTop: 10, marginBottom: 10 }}
               >
-                <RoutineCard />
-                <RoutineCard />
+                {routines?.map((r: any, index: any) => {
+                  return (
+                    <RoutineCard
+                      key={index}
+                      name={r.name}
+                      isEnabled={r.isEnabled}
+                      intervals={r.intervals}
+                    />
+                  );
+                })}
               </ScrollView>
             </View>
             <TouchableOpacity style={styles.button} onPress={() => {}}>
