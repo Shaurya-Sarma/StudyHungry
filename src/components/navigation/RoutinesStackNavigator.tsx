@@ -1,10 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button } from "react-native";
 import COLORS from "../../res/colors/Colors";
 import Routines from "../../screens/Routines/index.Routines";
-import CreateRoutine from "../Routines/CreateRoutine";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import RoutineForm from "../Routines/RoutineForm";
 
 export default function RoutinesStackNavigator() {
   const Stack = createStackNavigator();
@@ -18,8 +17,8 @@ export default function RoutinesStackNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="CreateRoutine"
-          component={CreateRoutine}
+          name="RoutineForm"
+          component={RoutineForm}
           options={({ navigation }) => ({
             headerTransparent: true,
             headerTitle: "",

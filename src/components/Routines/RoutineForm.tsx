@@ -1,13 +1,10 @@
-import { Text, StyleSheet, View, ScrollView, Keyboard } from "react-native";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
 import COLORS from "../../res/colors/Colors";
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Divider, TextInput } from "react-native-paper";
 import FocusedStatusBar from "../FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import IntervalCard from "./IntervalCard";
 import SelectDropdown from "react-native-select-dropdown";
 import Interval, { IntervalType } from "./Interval";
@@ -17,10 +14,24 @@ import Routine from "./Routine";
 import { secondsToHMS } from "../../../helpers/TimeConverter";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 
-export default function CreateRoutine({ navigation }: any) {
+export default function RoutineForm({ navigation, route }: any) {
+  // ---------------------------------------------------------------------------------------
+  // {route} has three vars
+  // createNewForm: boolean => to determine if editing or creating a routine
+  // routeName : string =>  if editing then previous name of routine
+  // intervals : Interval[] => if editing then list of previous Interval objects
+
+  useEffect(() => {
+    if (route.params?.createNewRoutine == false) {
+      setRoutineName(route.params?.routineName);
+      setIntervals(route.params?.intervals);
+    }
+  }, []);
+
+  // ---------------------------------------------------------------------------------------
   // import routines vars
   const { routines, setRoutines } = useContext(RoutineContext);
-  // error for submitting createRoutine "form"
+  // error for submitting form
   const [isNameFieldError, setIsNameFieldError] = useState(false);
   const [isIntervalFieldError, setIsIntervalFieldError] = useState(false);
   // data for dropdown menu: two types of routines
@@ -41,7 +52,11 @@ export default function CreateRoutine({ navigation }: any) {
     <>
       <FocusedStatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Create Routine</Text>
+        <Text style={styles.title}>
+          {route.params?.createNewRoutine == false
+            ? "Edit Routine"
+            : "Create Routine"}
+        </Text>
         <Divider
           bold={true}
           style={{ borderColor: COLORS.grey, borderWidth: 0.5 }}
@@ -150,17 +165,29 @@ export default function CreateRoutine({ navigation }: any) {
               // form is valid
               setIsNameFieldError(false);
               setIsIntervalFieldError(false);
-              // add new Routine Card (either a work or break card)
-              // append to routines array
-              let routinesCopy = [...routines];
-              routinesCopy.push(new Routine(routineName, intervals));
-              setRoutines(routinesCopy);
-              // navigate back to routines page
-              navigation.pop();
+              if (route.params?.createNewRoutine == false) {
+                // editing routine
+                let routinesCopy = [...routines];
+                routinesCopy[route.params?.index] = new Routine(
+                  routineName,
+                  intervals
+                );
+                setRoutines(routinesCopy);
+                // navigate back to routines page
+                navigation.pop();
+              } else {
+                // adding a new routine
+                let routinesCopy = [...routines];
+                // append new routine to the routines array
+                routinesCopy.push(new Routine(routineName, intervals));
+                setRoutines(routinesCopy);
+                // navigate back to routines page
+                navigation.pop();
+              }
             }
           }}
         >
-          <Text style={styles.buttonText}>Add Routine</Text>
+          <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </>

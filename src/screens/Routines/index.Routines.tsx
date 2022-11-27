@@ -39,7 +39,10 @@ export default function Routines({ navigation }: any) {
             <Text style={styles.title}>{STRINGS.routinesTitle}</Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.push("CreateRoutine");
+                navigation.navigate({
+                  name: "RoutineForm",
+                  params: { createNewRoutine: true },
+                });
               }}
             >
               <AntDesign name="pluscircle" size={44} color={COLORS.white} />
@@ -55,10 +58,12 @@ export default function Routines({ navigation }: any) {
                 {routines?.map((r: any, index: any) => {
                   return (
                     <RoutineCard
+                      navigation={navigation}
                       key={index}
                       name={r.name}
                       isEnabled={r.isEnabled}
                       intervals={r.intervals}
+                      index={index}
                     />
                   );
                 })}
