@@ -7,7 +7,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Interval, { IntervalType } from "./Interval";
 import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function RoutineCard(props: {
   name: string;

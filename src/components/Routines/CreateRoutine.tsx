@@ -12,12 +12,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { RoutineContext } from "../../contexts/RoutineContext";
 import Routine from "./Routine";
 import { secondsToHMS } from "../../../helpers/TimeConverter";
+import addHapticFeedback from "../../../helpers/HapticFeedback";
 
 export default function CreateRoutine({ navigation }: any) {
   // import routines vars
   const { routines, setRoutines } = useContext(RoutineContext);
   // error for submitting createRoutine "form"
-  const [isError, setIsError] = useState(false);
+  const [isNameFieldError, setIsNameFieldError] = useState(false);
+  const [isIntervalFieldError, setIsIntervalFieldError] = useState(false);
   // data for dropdown menu: two types of routines
   const intervalTypes: IntervalType[] = [IntervalType.Work, IntervalType.Break];
   // form data --> routines object
@@ -45,7 +47,7 @@ export default function CreateRoutine({ navigation }: any) {
           style={styles.textInput}
           label="Name"
           mode="outlined"
-          error={isError}
+          error={isNameFieldError}
           value={routineName}
           onChangeText={(text) => setRoutineName(text)}
         />
@@ -54,6 +56,7 @@ export default function CreateRoutine({ navigation }: any) {
           <SelectDropdown
             data={intervalTypes}
             onSelect={(selectedItem, index) => {
+              addHapticFeedback("light");
               // add interval card data to array
               // append to intervals array
               let intervalsCopy = [...intervals];
@@ -87,11 +90,20 @@ export default function CreateRoutine({ navigation }: any) {
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
             keyboardShouldPersistTaps="always"
-            style={[isError ? styles.borderBoxError : styles.borderBox]}
+            style={[
+              isIntervalFieldError ? styles.borderBoxError : styles.borderBox,
+            ]}
           >
             {intervals.map((i, index) => {
               return (
-                <IntervalCard key={index} type={i.type} length={i.length} />
+                <IntervalCard
+                  key={index}
+                  type={i.type}
+                  length={i.length}
+                  currentIntervalIndex={index}
+                  intervals={intervals}
+                  setIntervals={setIntervals}
+                />
               );
             })}
           </ScrollView>
@@ -104,16 +116,39 @@ export default function CreateRoutine({ navigation }: any) {
           style={styles.button}
           onPress={() => {
             // validate form is complete
+            let isValid = false;
             if (
               routineName.trim().length == 0 ||
               routineName == undefined ||
-              routineName == null ||
-              routines.length <= 0
+              routineName == null
             ) {
-              setIsError(true);
+              setIsNameFieldError(true);
             } else {
+              setIsNameFieldError(false);
+            }
+
+            if (intervals.length <= 0) {
+              setIsIntervalFieldError(true);
+            } else {
+              setIsIntervalFieldError(false);
+            }
+
+            // toggle isValid
+            if (
+              !(
+                routineName.trim().length == 0 ||
+                routineName == undefined ||
+                routineName == null ||
+                intervals.length <= 0
+              )
+            ) {
+              isValid = true;
+            }
+
+            if (isValid) {
               // form is valid
-              setIsError(false);
+              setIsNameFieldError(false);
+              setIsIntervalFieldError(false);
               // add new Routine Card (either a work or break card)
               // append to routines array
               let routinesCopy = [...routines];
