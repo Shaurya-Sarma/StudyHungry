@@ -6,7 +6,7 @@ import COLORS from "../../res/colors/Colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Interval, { IntervalType } from "./Interval";
-import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
+import { secondsToHMS } from "../../../helpers/TimeConverter";
 
 export default function RoutineCard(props: {
   name: string;
@@ -48,7 +48,7 @@ export default function RoutineCard(props: {
                       color="orange"
                     />
                     <Text style={styles.text}>{IntervalType[i.type]}</Text>
-                    <Text style={styles.subtext}>{secondsToMS(i.length)}</Text>
+                    <Text style={styles.subtext}>{secondsToHMS(i.length)}</Text>
                   </View>
                 );
               })}

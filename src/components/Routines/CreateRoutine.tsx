@@ -1,6 +1,9 @@
-import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { Text, StyleSheet, View, ScrollView, Keyboard } from "react-native";
 import COLORS from "../../res/colors/Colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import { Divider, TextInput } from "react-native-paper";
 import FocusedStatusBar from "../FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -43,6 +46,7 @@ export default function CreateRoutine({ navigation }: any) {
           bold={true}
           style={{ borderColor: COLORS.grey, borderWidth: 0.5 }}
         />
+
         <TextInput
           style={styles.textInput}
           label="Name"
@@ -85,7 +89,7 @@ export default function CreateRoutine({ navigation }: any) {
             buttonStyle={styles.dropdown}
           />
         </View>
-        <View style={[{ height: "54%" }]}>
+        <View style={[{ height: "46.75%" }]}>
           <ScrollView
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
@@ -107,11 +111,8 @@ export default function CreateRoutine({ navigation }: any) {
               );
             })}
           </ScrollView>
-          <Text style={styles.subtitle}>
-            Total Time: {calculateTotalTime()}
-          </Text>
         </View>
-
+        <Text style={styles.subtitle}>Total Time: {calculateTotalTime()}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import { Feather } from "@expo/vector-icons";
 import Interval, { IntervalType } from "./Interval";
-import { secondsToHMS, secondsToMS } from "../../../helpers/TimeConverter";
+import { secondsToHMS } from "../../../helpers/TimeConverter";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SegmentedPicker, { Selections } from "react-native-segmented-picker";
 import { useRef, useState } from "react";
@@ -55,31 +55,40 @@ export default function IntervalCard(props: {
     options.push(col_3);
     return options;
   }
-
   // ---------------------------------------------------
+
+  function deleteInterval() {
+    addHapticFeedback("light");
+    // delete selected interval
+    let intervalsCopy = [...props.intervals];
+    intervalsCopy.splice(props.currentIntervalIndex, 1);
+    props.setIntervals(intervalsCopy);
+  }
 
   return (
     <>
-      <View style={[styles.card, styles.cardShadow]}>
-        <View style={styles.cardContent}>
-          <View style={styles.itemRow}>
-            <Feather
-              name={props.type == IntervalType.Work ? "book" : "clock"}
-              size={24}
-              color="orange"
-            />
-            <Text style={styles.text}>{IntervalType[props.type]}</Text>
-            <TouchableOpacity
-              style={{ padding: 12.5 }}
-              onPress={() => {
-                segmentedPickerControls.current?.show();
-              }}
-            >
-              <Text style={styles.subtext}>{secondsToHMS(props.length)}</Text>
-            </TouchableOpacity>
+      <TouchableOpacity onPress={() => deleteInterval()}>
+        <View style={[styles.card, styles.cardShadow]}>
+          <View style={styles.cardContent}>
+            <View style={styles.itemRow}>
+              <Feather
+                name={props.type == IntervalType.Work ? "book" : "clock"}
+                size={24}
+                color="orange"
+              />
+              <Text style={styles.text}>{IntervalType[props.type]}</Text>
+              <TouchableOpacity
+                style={{ padding: 12.5 }}
+                onPress={() => {
+                  segmentedPickerControls.current?.show();
+                }}
+              >
+                <Text style={styles.subtext}>{secondsToHMS(props.length)}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
       <SegmentedPicker
         ref={segmentedPickerControls}
         onConfirm={(selections) => {
