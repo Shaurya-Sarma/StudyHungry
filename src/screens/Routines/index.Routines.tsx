@@ -5,7 +5,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, Swipeable } from "react-native-gesture-handler";
 import RoutineCard from "../../components/Routines/RoutineCard";
 import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
@@ -14,10 +14,39 @@ import FocusedStatusBar from "../../components/FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useContext } from "react";
 import { RoutineContext } from "../../contexts/RoutineContext";
+import { Feather } from "@expo/vector-icons";
+import Animated from "react-native-reanimated";
 
 export default function Routines({ navigation }: any) {
   const { width } = useWindowDimensions();
-  const { routines } = useContext(RoutineContext);
+  const { routines, setRoutines } = useContext(RoutineContext);
+
+  // delete a routine
+  function deleteRoutine(index: number) {
+    let routinesCopy = [...routines];
+    routinesCopy.splice(index, 1);
+    setRoutines(routinesCopy);
+  }
+
+  // set up swipeable and delete icon
+  //-------------------------------------------------------
+  const RightActions = (progress: any, dragX: any) => {
+    const trans = dragX.interpolate({
+      inputRange: [0, 50, 100, 101],
+      outputRange: [-20, 0, 0, 1],
+    });
+    return (
+      <Animated.View style={styles.deleteContainer}>
+        <Feather
+          style={styles.deleteIcon}
+          name="trash"
+          size={32}
+          color={COLORS.white}
+        />
+      </Animated.View>
+    );
+  };
+  //-------------------------------------------------------
 
   return (
     <>
@@ -57,14 +86,24 @@ export default function Routines({ navigation }: any) {
               >
                 {routines?.map((r: any, index: any) => {
                   return (
-                    <RoutineCard
-                      navigation={navigation}
-                      key={index}
-                      name={r.name}
-                      isEnabled={r.isEnabled}
-                      intervals={r.intervals}
-                      index={index}
-                    />
+                    <Swipeable
+                      key={r.uuid}
+                      overshootRight={true}
+                      onSwipeableOpen={(direction: "left" | "right") => {
+                        deleteRoutine(index);
+                      }}
+                      renderRightActions={RightActions}
+                      containerStyle={{ paddingVertical: 10 }}
+                    >
+                      <RoutineCard
+                        key={r.uuid}
+                        navigation={navigation}
+                        name={r.name}
+                        isEnabled={r.isEnabled}
+                        intervals={r.intervals}
+                        index={index}
+                      />
+                    </Swipeable>
                   );
                 })}
               </ScrollView>
@@ -125,5 +164,18 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     textTransform: "uppercase",
     marginVertical: 5,
+  },
+  deleteContainer: {
+    width: "90%",
+    marginVertical: 10,
+    marginHorizontal: 20,
+    backgroundColor: COLORS.red,
+    flexDirection: "column",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+  deleteIcon: {
+    alignSelf: "flex-end",
+    marginRight: 20,
   },
 });

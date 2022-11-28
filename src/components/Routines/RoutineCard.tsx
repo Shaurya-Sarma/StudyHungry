@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Switch } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
@@ -8,16 +8,40 @@ import { Feather } from "@expo/vector-icons";
 import Interval, { IntervalType } from "./Interval";
 import { secondsToHMS } from "../../../helpers/TimeConverter";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { RoutineContext } from "../../contexts/RoutineContext";
+import Routine from "./Routine";
 
 export default function RoutineCard(props: {
   name: string;
-  index: number;
   isEnabled: boolean;
   intervals: Interval[];
+  index: number;
   navigation: any;
 }) {
+  // import routine vars
+  const { routines, setRoutines } = useContext(RoutineContext);
   const [isEnabled, setIsEnabled] = useState(props.isEnabled);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  useEffect(() => setIsEnabled(props.isEnabled), [props.isEnabled]);
+
+  const toggleSwitch = () => {
+    if (!isEnabled) {
+      // if turning on switch
+      // disable all other routine cards
+      let routinesCopy = [...routines];
+      routinesCopy.forEach((r: Routine, index: any) => {
+        // if index of routine in routine[] is not the index of the selected (curr) routine card
+        if (index !== props.index) {
+          r.isEnabled = false;
+        } else {
+          r.isEnabled = true;
+        }
+      });
+      setRoutines(routinesCopy);
+    }
+
+    setIsEnabled((previousState) => !previousState);
+  };
 
   function calculateTotalTime() {
     let sum = 0;
@@ -91,7 +115,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: COLORS.white,
     borderRadius: 10,
-    marginTop: 20,
     marginHorizontal: 20,
   },
   cardShadow: generateBoxShadowStyle(
@@ -114,11 +137,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "Nunito-SemiBold",
+    maxWidth: "80%",
   },
   row: {
     width: "100%",
-    flex: 1,
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-between",
   },

@@ -22,6 +22,7 @@ export default function RoutineForm({ navigation, route }: any) {
   // intervals : Interval[] => if editing then list of previous Interval objects
 
   useEffect(() => {
+    // update form with the data of the selected routine card
     if (route.params?.createNewRoutine == false) {
       setRoutineName(route.params?.routineName);
       setIntervals(route.params?.intervals);

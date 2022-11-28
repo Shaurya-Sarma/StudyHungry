@@ -14,9 +14,10 @@ import FocusedStatusBar from "../../components/FocusedStatusBar";
 import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
 import { ScrollView, Swipeable } from "react-native-gesture-handler";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
+import Animated from "react-native-reanimated";
 
 export default function Agenda() {
   const { width } = useWindowDimensions();
@@ -55,12 +56,14 @@ export default function Agenda() {
       outputRange: [-20, 0, 0, 1],
     });
     return (
-      <Ionicons
-        style={styles.deleteIcon}
-        name="close-outline"
-        size={32}
-        color="red"
-      />
+      <Animated.View style={styles.deleteContainer}>
+        <Feather
+          style={styles.deleteIcon}
+          name="trash"
+          size={28}
+          color={COLORS.white}
+        />
+      </Animated.View>
     );
   };
 
@@ -212,8 +215,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 20,
   },
+  deleteContainer: {
+    width: "90%",
+    marginVertical: 12,
+    marginHorizontal: 20,
+    backgroundColor: COLORS.red,
+    flexDirection: "column",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
   deleteIcon: {
-    marginTop: 20,
-    marginRight: 20,
+    alignSelf: "flex-end",
+    marginRight: 10,
   },
 });
