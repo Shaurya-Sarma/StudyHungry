@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -16,27 +16,27 @@ import STRINGS from "../../res/strings/en-EN";
 import { ScrollView, Swipeable } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import uuid from "react-native-uuid";
 import Animated from "react-native-reanimated";
+import { AgendaContext } from "../../contexts/AgendaContext";
+import Task from "../../components/Agenda/Task";
+import {
+  getTaskItems,
+  removeTask,
+  storeTaskItem,
+} from "../../api/AsyncStorage";
 
 export default function Agenda() {
   const { width } = useWindowDimensions();
+  const { taskItems, setTaskItems } = useContext(AgendaContext);
 
-  // declare task methods
-  //-------------------------------------------------------
-  const [task, setTask] = useState<{
-    description: "";
-    isChecked: false;
-    uuid: string | number[];
-  }>();
-  const [taskItems, setTaskItems] = useState<any>([]);
+  const [task, setTask] = useState<Task>();
 
   // add task
-  function handleAddTask() {
+  function addTask(task: Task) {
     if (task && task.description.trim().length !== 0) {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
-      setTask({ description: "", isChecked: false, uuid: uuid.v4() });
+      setTask(new Task(""));
     }
   }
 
@@ -44,7 +44,7 @@ export default function Agenda() {
   function deleteTask(index: number) {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1);
-    removeItemValue(taskItems[index].uuid);
+    removeTask(taskItems[index].uuid);
     setTaskItems(itemsCopy);
   }
 
@@ -67,48 +67,12 @@ export default function Agenda() {
     );
   };
 
-  // local storage methods
-  //-------------------------------------------------------
-  // add to local storage
-  const storeData = async (value: {
-    description: string;
-    isChecked: boolean;
-    uuid: string;
-  }) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(value.uuid, jsonValue);
-    } catch (e) {
-      console.log("Error in saving task: " + e);
-    }
-  };
-
-  // read data from local storage
-  const getData = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const items = await AsyncStorage.multiGet(keys);
-      return items;
-    } catch (e) {
-      console.log("Error in retrieving tasks: " + e);
-    }
-  };
-
-  // delete data from local storage
-  const removeItemValue = async (key: any) => {
-    try {
-      await AsyncStorage.removeItem(key);
-      return true;
-    } catch (exception) {
-      return false;
-    }
-  };
-
   // on initialize retrieve the data
   useEffect(() => {
+    // use to clear async storage: DEV
     // AsyncStorage.clear();
     const retrieveData = async () => {
-      const dataKeyValue = await getData();
+      const dataKeyValue = await getTaskItems();
       const data = dataKeyValue?.map((pair) => {
         if (pair[1] !== null) {
           return JSON.parse(pair[1]);
@@ -124,7 +88,7 @@ export default function Agenda() {
   useEffect(() => {
     return () => {
       for (let i = 0; i > taskItems.length; i++) {
-        storeData(taskItems[i]);
+        storeTaskItem(taskItems[i]);
       }
     };
   });
@@ -141,48 +105,32 @@ export default function Agenda() {
               showsVerticalScrollIndicator={true}
               automaticallyAdjustKeyboardInsets={true}
             >
-              {taskItems.map(
-                (
-                  task: {
-                    description: string;
-                    isChecked: boolean;
-                    uuid: string;
-                  },
-                  index: number
-                ) => {
-                  // store data to local storage - accounts for if checked
-                  if (task.uuid !== undefined) {
-                    storeData(task);
-                  }
+              {taskItems.map((task: Task, index: number) => {
+                storeTaskItem(task); // store data to local storage
 
-                  return (
-                    <Swipeable
+                return (
+                  <Swipeable
+                    key={task.uuid}
+                    overshootRight={true}
+                    onSwipeableOpen={(direction: "left" | "right") => {
+                      deleteTask(index);
+                    }}
+                    renderRightActions={RightActions}
+                  >
+                    <TaskItem
                       key={task.uuid}
-                      overshootRight={true}
-                      onSwipeableOpen={(direction: "left" | "right") => {
-                        deleteTask(index);
-                      }}
-                      renderRightActions={RightActions}
-                    >
-                      <TaskItem
-                        key={task.uuid}
-                        text={task?.description}
-                        isChecked={task?.isChecked}
-                        index={index}
-                        taskItems={taskItems}
-                        setTaskItems={setTaskItems}
-                      />
-                    </Swipeable>
-                  );
-                }
-              )}
+                      text={task.description}
+                      isChecked={task.isChecked}
+                      index={index}
+                      taskItems={taskItems}
+                      setTaskItems={setTaskItems}
+                    />
+                  </Swipeable>
+                );
+              })}
             </ScrollView>
           </View>
-          <AddTaskBar
-            taskText={task?.description}
-            setTask={setTask}
-            handleAddTask={handleAddTask}
-          ></AddTaskBar>
+          <AddTaskBar task={task} setTask={setTask} addTask={addTask} />
         </View>
       </SafeAreaView>
     </>

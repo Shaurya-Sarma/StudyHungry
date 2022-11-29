@@ -1,4 +1,3 @@
-import React from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -9,10 +8,14 @@ import {
 import { FAB } from "react-native-paper";
 import generateBoxShadowStyle from "../../../helpers/BoxShadow";
 import COLORS from "../../res/colors/Colors";
-import uuid from "react-native-uuid";
 import STRINGS from "../../res/strings/en-EN";
+import Task from "./Task";
 
-export default function AddTaskBar(props: any) {
+export default function AddTaskBar(props: {
+  task: Task | undefined;
+  setTask: Function;
+  addTask: Function;
+}) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -24,14 +27,8 @@ export default function AddTaskBar(props: any) {
           style={styles.itemBarText}
           placeholder={STRINGS.addTaskBarDescription}
           placeholderTextColor={COLORS.purple}
-          value={props.taskText}
-          onChangeText={(text) =>
-            props.setTask({
-              description: text,
-              isChecked: false,
-              uuid: uuid.v4().toString(),
-            })
-          }
+          value={props.task?.description}
+          onChangeText={(text) => props.setTask(new Task(text))}
         />
       </View>
       <View style={styles.itemBarBoxShadow}>
@@ -39,7 +36,7 @@ export default function AddTaskBar(props: any) {
           icon="plus"
           mode="flat"
           style={styles.fab}
-          onPress={() => props.handleAddTask()}
+          onPress={() => props.addTask(props.task)}
         />
       </View>
     </KeyboardAvoidingView>

@@ -1,7 +1,6 @@
 import Interval from "./Interval";
 import uuid from "react-native-uuid";
 
-
 export default class Routine {
   name: string;
   uuid: string;
