@@ -13,6 +13,7 @@ import { RoutineContext } from "../../contexts/RoutineContext";
 import Routine from "./Routine";
 import { secondsToHMS } from "../../../helpers/TimeConverter";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
+import { removeRoutine } from "../../api/AsyncStorage";
 
 export default function RoutineForm({ navigation, route }: any) {
   // ---------------------------------------------------------------------------------------
@@ -30,6 +31,7 @@ export default function RoutineForm({ navigation, route }: any) {
   }, []);
 
   // ---------------------------------------------------------------------------------------
+
   // import routines vars
   const { routines, setRoutines } = useContext(RoutineContext);
   // error for submitting form
@@ -132,8 +134,6 @@ export default function RoutineForm({ navigation, route }: any) {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            // validate form is complete
-            let isValid = false;
             if (
               routineName.trim().length == 0 ||
               routineName == undefined ||
@@ -149,6 +149,9 @@ export default function RoutineForm({ navigation, route }: any) {
             } else {
               setIsIntervalFieldError(false);
             }
+
+            // validate form is complete
+            let isValid = false;
 
             // toggle isValid
             if (
@@ -169,22 +172,21 @@ export default function RoutineForm({ navigation, route }: any) {
               if (route.params?.createNewRoutine == false) {
                 // editing routine
                 let routinesCopy = [...routines];
-                routinesCopy[route.params?.index] = new Routine(
-                  routineName,
-                  intervals
-                );
+                routinesCopy.splice(route.params?.index, 1);
+                removeRoutine(routines[route.params?.index].uuid);
+                // add new routine
+                routinesCopy.push(new Routine(routineName, intervals, false));
                 setRoutines(routinesCopy);
-                // navigate back to routines page
-                navigation.pop();
               } else {
                 // adding a new routine
                 let routinesCopy = [...routines];
                 // append new routine to the routines array
-                routinesCopy.push(new Routine(routineName, intervals));
+                routinesCopy.push(new Routine(routineName, intervals, false));
                 setRoutines(routinesCopy);
-                // navigate back to routines page
-                navigation.pop();
               }
+
+              // navigate back to routines page
+              navigation.pop();
             }
           }}
         >

@@ -15,7 +15,6 @@ import COLORS from "../../res/colors/Colors";
 import STRINGS from "../../res/strings/en-EN";
 import { ScrollView, Swipeable } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Animated from "react-native-reanimated";
 import { AgendaContext } from "../../contexts/AgendaContext";
 import Task from "../../components/Agenda/Task";

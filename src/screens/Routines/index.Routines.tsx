@@ -12,19 +12,27 @@ import STRINGS from "../../res/strings/en-EN";
 import { AntDesign } from "@expo/vector-icons";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { RoutineContext } from "../../contexts/RoutineContext";
 import { Feather } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
+import {
+  getRoutines,
+  removeRoutine,
+  storeRoutineItem,
+} from "../../api/AsyncStorage";
+import Routine from "../../components/Routines/Routine";
 
 export default function Routines({ navigation }: any) {
   const { width } = useWindowDimensions();
-  const { routines, setRoutines } = useContext(RoutineContext);
+  const { routines, setRoutines, defaultIntervalList } =
+    useContext(RoutineContext);
 
   // delete a routine
   function deleteRoutine(index: number) {
     let routinesCopy = [...routines];
     routinesCopy.splice(index, 1);
+    removeRoutine(routines[index].uuid);
     setRoutines(routinesCopy);
   }
 
@@ -47,6 +55,36 @@ export default function Routines({ navigation }: any) {
     );
   };
   //-------------------------------------------------------
+
+  // on initialize retrieve the data
+  useEffect(() => {
+    // use to clear async storage: DEV
+    // AsyncStorage.clear();
+    const retrieveData = async () => {
+      const dataKeyValue = await getRoutines();
+      const data = dataKeyValue?.map((pair) => {
+        if (pair[1] !== null) {
+          return JSON.parse(pair[1]);
+        }
+      });
+      // default routine is not saved to storage
+      // manually add the default routine
+      data?.unshift(new Routine("Default", defaultIntervalList, true));
+      setRoutines(data);
+    };
+
+    retrieveData();
+  }, []);
+
+  // on page destruct save the data in current state
+  useEffect(() => {
+    return () => {
+      for (let i = 0; i > routines.length; i++) {
+        console.log(routines.length);
+        storeRoutineItem(routines[i]);
+      }
+    };
+  });
 
   return (
     <>
@@ -84,7 +122,11 @@ export default function Routines({ navigation }: any) {
                 keyboardShouldPersistTaps="always"
                 style={{ marginTop: 10, marginBottom: 10 }}
               >
-                {routines?.map((r: any, index: any) => {
+                {console.log("rendered")}
+                {console.log(routines.length)}
+                {routines.map((r: Routine, index: any) => {
+                  storeRoutineItem(r); // store data to local storage
+
                   return (
                     <Swipeable
                       key={r.uuid}

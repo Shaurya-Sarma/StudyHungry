@@ -6,22 +6,21 @@ const RoutineContext = createContext();
 
 const RoutineProvider = ({ children }) => {
   // define default routine as Interval[]
-  let intervalList = [];
+  let defaultIntervalList = [];
   // create intervals for default: 25 minute work, 5 minute break (repeat 4 times)
   for (let i = 1; i <= 4; i++) {
-    intervalList.push(new Interval(IntervalType.Work, 1500));
-    intervalList.push(new Interval(IntervalType.Break, 300));
+    defaultIntervalList.push(new Interval(IntervalType.Work, 1500));
+    defaultIntervalList.push(new Interval(IntervalType.Break, 300));
   }
   // initialize array of Routine[]
-  const [routines, setRoutines] = useState([
-    new Routine("Default", intervalList),
-  ]);
+  const [routines, setRoutines] = useState([]);
 
   return (
     <RoutineContext.Provider
       value={{
         routines,
         setRoutines,
+        defaultIntervalList,
       }}
     >
       {children}
