@@ -42,7 +42,6 @@ export const getRoutines = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
     routineKeys = keys.filter((key) => key.includes("routine")) // gets only keys with routines- identifier
-    console.log("retrieved: " + routineKeys)
     const items = await AsyncStorage.multiGet(routineKeys);
     return items;
   } catch (e) {

@@ -23,8 +23,8 @@ export default function TaskItem(props: any) {
           isChecked={props.isChecked}
           useNativeDriver={true}
           text={props.text}
-          textStyle={styles.itemText}
-          style={{ maxWidth: "90%" }}
+          textStyle={props.isChecked ? styles.itemTextChecked : styles.itemText}
+          style={{ width: "100%" }}
           size={20}
           fillColor={COLORS.green}
           iconStyle={{ marginHorizontal: -5 }}
@@ -58,6 +58,11 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: COLORS.black,
+    fontFamily: "Nunito-Medium",
+  },
+  itemTextChecked: {
+    fontSize: 16,
+    color: COLORS.darkGrey,
     fontFamily: "Nunito-Medium",
   },
   itemLeft: {

@@ -36,6 +36,11 @@ export default function Routines({ navigation }: any) {
     setRoutines(routinesCopy);
   }
 
+  // start a study session
+  function startSession() {
+    // find which routine is enabled
+  }
+
   // set up swipeable and delete icon
   //-------------------------------------------------------
   const RightActions = (progress: any, dragX: any) => {
@@ -68,8 +73,9 @@ export default function Routines({ navigation }: any) {
         }
       });
       // default routine is not saved to storage
-      // manually add the default routine
-      data?.unshift(new Routine("Default", defaultIntervalList, true));
+      // manually add the default routine if there are no other routines
+      if (data?.length == 0)
+        data?.unshift(new Routine("Default", defaultIntervalList, true));
       setRoutines(data);
     };
 
@@ -80,7 +86,6 @@ export default function Routines({ navigation }: any) {
   useEffect(() => {
     return () => {
       for (let i = 0; i > routines.length; i++) {
-        console.log(routines.length);
         storeRoutineItem(routines[i]);
       }
     };
@@ -122,8 +127,6 @@ export default function Routines({ navigation }: any) {
                 keyboardShouldPersistTaps="always"
                 style={{ marginTop: 10, marginBottom: 10 }}
               >
-                {console.log("rendered")}
-                {console.log(routines.length)}
                 {routines.map((r: Routine, index: any) => {
                   storeRoutineItem(r); // store data to local storage
 
@@ -150,7 +153,10 @@ export default function Routines({ navigation }: any) {
                 })}
               </ScrollView>
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => startSession()}
+            >
               <Text style={styles.buttonText}>Start Session</Text>
             </TouchableOpacity>
           </View>
