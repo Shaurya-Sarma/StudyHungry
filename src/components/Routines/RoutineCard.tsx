@@ -25,20 +25,19 @@ export default function RoutineCard(props: {
   useEffect(() => setIsEnabled(props.isEnabled), [props.isEnabled]);
 
   const toggleSwitch = () => {
-    if (!isEnabled) {
-      // if turning on switch
-      // disable all other routine cards
-      let routinesCopy = [...routines];
-      routinesCopy.forEach((r: Routine, index: any) => {
-        // if index of routine in routine[] is not the index of the selected (curr) routine card
-        if (index !== props.index) {
-          r.isEnabled = false;
-        } else {
-          r.isEnabled = true;
-        }
-      });
-      setRoutines(routinesCopy);
-    }
+    let routinesCopy = [...routines];
+
+    // if turning on switch
+    // disable all other routine cards
+    routinesCopy.forEach((r: Routine, index: any) => {
+      // if index of routine in routine[] is not the index of the selected (curr) routine card
+      if (index !== props.index) {
+        r.isEnabled = false;
+      } else {
+        r.isEnabled = !r.isEnabled;
+      }
+    });
+    setRoutines(routinesCopy);
 
     setIsEnabled((previousState) => !previousState);
   };

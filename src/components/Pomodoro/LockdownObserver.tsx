@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { AppState, StyleSheet } from "react-native";
-import { Snackbar } from "react-native-paper";
-
+import { AppState } from "react-native";
 import { TimerContext } from "../../contexts/TimerContext";
+import STRINGS from "../../res/strings/en-EN";
+import SnackbarMessage from "../SnackbarMessage";
 
 export default function LockdownObserver(props: any) {
   // import timer variables
@@ -44,31 +44,15 @@ export default function LockdownObserver(props: any) {
     }
   }, [currentAppState, focusMode]);
 
-  const onDismissSnackBar = () => setShowLockdownSnackbar(false);
-
   return showLockdownSnackbar ? (
-    <Snackbar
-      wrapperStyle={{ top: 0 }}
-      visible={showLockdownSnackbar}
-      onDismiss={onDismissSnackBar}
-      duration={Infinity}
-      action={{
-        label: "HIDE",
-        labelStyle: { ...styles.labelStyle },
-        onPress: () => {
-          onDismissSnackBar();
-        },
-      }}
-    >
-      Lockdown Mode is currently active. Leaving the app will restart the timer!
-    </Snackbar>
+    <SnackbarMessage
+      message={STRINGS.lockdownSnackbarMessage}
+      isVisible={showLockdownSnackbar}
+      setIsVisible={setShowLockdownSnackbar}
+      haveLabel={true}
+      labelStyle={{ fontFamily: "Nunito-ExtraBold" }}
+    />
   ) : (
     <></>
   );
 }
-
-const styles = StyleSheet.create({
-  labelStyle: {
-    fontFamily: "Nunito-ExtraBold",
-  },
-});

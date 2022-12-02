@@ -12,7 +12,7 @@ import STRINGS from "../../res/strings/en-EN";
 import { AntDesign } from "@expo/vector-icons";
 import FocusedStatusBar from "../../components/FocusedStatusBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RoutineContext } from "../../contexts/RoutineContext";
 import { Feather } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
@@ -22,6 +22,7 @@ import {
   storeRoutineItem,
 } from "../../api/AsyncStorage";
 import Routine from "../../components/Routines/Routine";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 export default function Routines({ navigation }: any) {
   const { width } = useWindowDimensions();
@@ -36,9 +37,25 @@ export default function Routines({ navigation }: any) {
     setRoutines(routinesCopy);
   }
 
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
   // start a study session
   function startSession() {
     // find which routine is enabled
+    let canStartSession = false;
+    let selectedRoutine: Routine | null = null;
+    routines.forEach((r: Routine) => {
+      if (r.isEnabled) {
+        canStartSession = true;
+        selectedRoutine = r;
+      }
+    });
+
+    if (canStartSession) {
+      console.log(selectedRoutine);
+    } else {
+      setShowSnackbar(true);
+    }
   }
 
   // set up swipeable and delete icon
@@ -162,6 +179,13 @@ export default function Routines({ navigation }: any) {
           </View>
         </View>
       </SafeAreaView>
+      <SnackbarMessage
+        message={STRINGS.startSessionSnackbarMessage}
+        isVisible={showSnackbar}
+        setIsVisible={setShowSnackbar}
+        haveLabel={true}
+        labelStyle={{ fontFamily: "Nunito-ExtraBold" }}
+      />
     </>
   );
 }

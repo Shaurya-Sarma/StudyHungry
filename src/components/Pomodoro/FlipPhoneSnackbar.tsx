@@ -1,10 +1,11 @@
-import { Snackbar } from "react-native-paper";
 import { useContext, useState, useEffect } from "react";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
 import { StyleSheet, Vibration } from "react-native";
 import SETTINGS from "../../res/Settings";
 import { SoundContext } from "../../contexts/SoundContext";
+import STRINGS from "../../res/strings/en-EN";
+import SnackbarMessage from "../SnackbarMessage";
 
 export default function FlipPhoneSnackbar(props: any) {
   // import timer variables
@@ -42,8 +43,7 @@ export default function FlipPhoneSnackbar(props: any) {
   // check if countdown has reached 0
   useEffect(() => {
     if (countdown == 0) {
-      onDismissSnackBar();
-      // restart timer in via timer.tsx
+      props.setShowFlipPhoneSnackbar(false); // restart timer in via timer.tsx
       triggerTimerReset.current = true;
       // trigger component rerender
       setIsTimerEnabled(!isTimerEnabled);
@@ -52,19 +52,24 @@ export default function FlipPhoneSnackbar(props: any) {
     }
   }, [countdown]);
 
-  const onDismissSnackBar = () => props.setShowFlipPhoneSnackbar(false);
-
   return (
-    <Snackbar
-      wrapperStyle={{ top: 0 }}
-      style={styles.warning}
-      visible={props.showFlipPhoneSnackbar}
-      onDismiss={onDismissSnackBar}
-      duration={Infinity}
-    >
-      Flip Mode is activated! Timer will be deactivated soon since focus has
-      been lost
-    </Snackbar>
+    <SnackbarMessage
+      message={STRINGS.flipPhoneSnackbarMessage}
+      isVisible={props.showFlipPhoneSnackbar}
+      setIsVisible={props.setShowFlipPhoneSnackbar}
+      snackbarStyle={styles.warning}
+      haveLabel={false}
+    />
+    // <Snackbar
+    //   wrapperStyle={{ top: 0 }}
+    //   style={styles.warning}
+    //   visible={props.showFlipPhoneSnackbar}
+    //   onDismiss={onDismissSnackBar}
+    //   duration={Infinity}
+    // >
+    //   Flip Mode is activated! Timer will be deactivated soon since focus has
+    //   been lost
+    // </Snackbar>
   );
 }
 
