@@ -1,20 +1,24 @@
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import Timer from "./Timer";
 
-export default function PomodoroPage({ itemData }: { itemData: any }) {
+export default function PomodoroPage(props: {
+  itemIndex: number;
+  itemData: any;
+}) {
   const windowWidth = useWindowDimensions();
 
   return (
     <>
       <View style={[styles.container, windowWidth]}>
-        <Text style={[styles.subtitle]}>{itemData.subtitle}</Text>
-        <Text style={[styles.title, { color: itemData.primaryColor }]}>
-          {itemData.title}
+        <Text style={[styles.subtitle]}>{props.itemData.subtitle}</Text>
+        <Text style={[styles.title, { color: props.itemData.primaryColor }]}>
+          {props.itemData.title}
         </Text>
         <Timer
-          timerValue={itemData.timerValue}
-          color={itemData.primaryColor}
-          name={itemData.name}
+          timerValue={props.itemData.timerValue}
+          color={props.itemData.primaryColor}
+          name={props.itemData.name}
+          itemIndex={props.itemIndex}
         />
       </View>
     </>

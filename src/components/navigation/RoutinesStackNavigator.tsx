@@ -4,6 +4,7 @@ import Routines from "../../screens/Routines/index.Routines";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RoutineForm from "../Routines/RoutineForm";
+import SessionScreen from "../Routines/Session/SessionScreen";
 
 export default function RoutinesStackNavigator() {
   const Stack = createStackNavigator();
@@ -33,6 +34,11 @@ export default function RoutinesStackNavigator() {
               </TouchableOpacity>
             ),
           })}
+        />
+        <Stack.Screen
+          name="SessionScreen"
+          component={SessionScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </>

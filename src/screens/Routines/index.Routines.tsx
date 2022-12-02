@@ -52,7 +52,11 @@ export default function Routines({ navigation }: any) {
     });
 
     if (canStartSession) {
-      console.log(selectedRoutine);
+      // navigate to session page
+      navigation.navigate({
+        name: "SessionScreen",
+        params: { routine: selectedRoutine }, // pass routine object
+      });
     } else {
       setShowSnackbar(true);
     }
@@ -174,7 +178,9 @@ export default function Routines({ navigation }: any) {
               style={styles.button}
               onPress={() => startSession()}
             >
-              <Text style={styles.buttonText}>Start Session</Text>
+              <Text style={styles.buttonText}>
+                {STRINGS.startSessionButton}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

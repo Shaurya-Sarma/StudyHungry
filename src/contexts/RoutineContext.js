@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import Interval, { IntervalType } from "../components/Routines/Interval";
-import Routine from "../components/Routines/Routine";
 
 const RoutineContext = createContext();
 
@@ -15,12 +14,16 @@ const RoutineProvider = ({ children }) => {
   // initialize array of Routine[]
   const [routines, setRoutines] = useState([]);
 
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+
   return (
     <RoutineContext.Provider
       value={{
         routines,
         setRoutines,
         defaultIntervalList,
+        currentPageIndex,
+        setCurrentPageIndex,
       }}
     >
       {children}

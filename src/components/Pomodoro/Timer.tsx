@@ -8,13 +8,14 @@ import { SoundContext } from "../../contexts/SoundContext";
 import { TimerContext } from "../../contexts/TimerContext";
 import SETTINGS from "../../res/Settings";
 import ActionButton from "./ActionButton";
-import AlertModal from "./AlertModal";
+import AlertModal from "../AlertModal";
 import SettingsModal from "./SettingsModal";
 
 export default function Timer(props: {
   timerValue: number;
   color: string;
   name: string;
+  itemIndex: number;
 }) {
   // import timer variables
   const { isTimerEnabled, setIsTimerEnabled, triggerTimerReset, focusMode } =
@@ -204,5 +205,6 @@ const styles = StyleSheet.create({
   },
   timer: {
     marginTop: 25,
+    marginLeft: 7.5,
   },
 });

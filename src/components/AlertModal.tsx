@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { StyleSheet } from "react-native";
-import COLORS from "../../res/colors/Colors";
+import COLORS from "../res/colors/Colors";
 import Modal from "react-native-modal";
 import { TouchableOpacity } from "react-native-gesture-handler";
 

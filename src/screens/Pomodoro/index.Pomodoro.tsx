@@ -7,10 +7,10 @@ import FocusedStatusBar from "../../components/FocusedStatusBar";
 import AccelerometerObserver from "../../components/Pomodoro/AccelerometerObserver";
 import LockdownObserver from "../../components/Pomodoro/LockdownObserver";
 import pageData from "../../components/Pomodoro/pages";
-import Paginator from "../../components/Pomodoro/Paginator";
 import PomodoroPage from "../../components/Pomodoro/PomodoroPage";
 import { TimerContext } from "../../contexts/TimerContext";
 import COLORS from "../../res/colors/Colors";
+import PomodoroPaginator from "../../components/Pomodoro/PomodoroPaginator";
 
 export default function Pomodoro() {
   // import timer variables
@@ -35,26 +35,26 @@ export default function Pomodoro() {
     <>
       <FocusedStatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <Paginator data={pageData} />
-        <View style={{ flex: 3 }}>
-          <FlatList
-            data={pageData}
-            renderItem={({ item }) => <PomodoroPage itemData={item} />}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            bounces={false}
-            keyExtractor={(item) => item.id}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              { useNativeDriver: false }
-            )}
-            scrollEventThrottle={32}
-            onViewableItemsChanged={_onViewableItemsChanged}
-            viewabilityConfig={viewConfig}
-            ref={slidesRef}
-          />
-        </View>
+        <PomodoroPaginator data={pageData} />
+        <FlatList
+          data={pageData}
+          renderItem={({ item, index }) => (
+            <PomodoroPage itemData={item} itemIndex={index} />
+          )}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          bounces={false}
+          keyExtractor={(item) => item.id}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
+          scrollEventThrottle={32}
+          onViewableItemsChanged={_onViewableItemsChanged}
+          viewabilityConfig={viewConfig}
+          ref={slidesRef}
+        />
       </SafeAreaView>
       <AccelerometerObserver />
       <LockdownObserver />
@@ -64,9 +64,7 @@ export default function Pomodoro() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    color: COLORS.white,
+    backgroundColor: COLORS.white,
     alignItems: "center",
-    justifyContent: "center",
   },
 });

@@ -1,17 +1,12 @@
 import { StyleSheet, View } from "react-native";
-import React, { useContext } from "react";
-import COLORS from "../../res/colors/Colors";
 import Animated from "react-native-reanimated";
-import { TimerContext } from "../../contexts/TimerContext";
+import COLORS from "../res/colors/Colors";
 
-const Paginator = ({ data }: any) => {
-  // import timer variables
-  const { currentPageIndex } = useContext(TimerContext);
-
+const Paginator = (props: { data: any; pageIndex: number }) => {
   return (
     <View style={styles.row}>
-      {data.map((_: any, i: any) => {
-        if (currentPageIndex == i) {
+      {props.data.map((_: any, i: any) => {
+        if (props.pageIndex == i) {
           return (
             <Animated.View
               style={[styles.dot, { opacity: 1 }]}
