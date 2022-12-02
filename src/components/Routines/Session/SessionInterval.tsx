@@ -14,7 +14,9 @@ export default function SessionInterval(props: {
   itemIndex: number;
 }) {
   const windowWidth = useWindowDimensions();
-  // declare countdown timer controls
+
+  // declare countdown timer controls and vars
+  // ---------------------------------------------------------------------------------------
   const timerControls = useRef<ProgressRef>(null);
   const timerColor =
     IntervalType[props.interval.type] == "Work" ? COLORS.blue : COLORS.green;
@@ -26,8 +28,10 @@ export default function SessionInterval(props: {
     IntervalType[props.interval.type] == "Work"
       ? STRINGS.pomodoroTitleFocusMain
       : STRINGS.pomodoroTitleShortBreakMain;
-
+  // ---------------------------------------------------------------------------------------
   // on initialization set timer to inactive
+  //! need to pause all other timers except current one (use currentPageIndex from routines.context )
+  //! only set the current one active
   useEffect(() => {
     setTimeout(function () {
       if (timerControls != null && timerControls.current != null) {
@@ -35,6 +39,12 @@ export default function SessionInterval(props: {
       }
     }, 100);
   }, []);
+
+  function timerCompleted() {
+    // show snackbar and paginate to next page
+    // props.scrollToNextPage;
+    console.log("timer done! ");
+  }
 
   return (
     <>
@@ -75,11 +85,7 @@ export default function SessionInterval(props: {
             }}
             duration={props.interval.length * SETTINGS.timerDurationMultiplier}
             progressValueStyle={styles.timerText}
-            onAnimationComplete={() => {
-              // show snackbar and paginate to next page
-              // props.scrollToNextPage;
-              console.log("timer done! ");
-            }}
+            onAnimationComplete={timerCompleted}
           />
         </View>
       </View>
