@@ -69,8 +69,8 @@ export default function SessionInterval(props: {
     if (props.itemIndex + 1 >= props.numOfIntervals) {
       // session ended: display alert
       setIsAlertModalVisible(true);
-      setAlertTitle("Session Has Ended! 🥳🎉");
-      setAlertMessage("Great Work! You are amazing!");
+      setAlertTitle(STRINGS.sessionEndedAlertTitle);
+      setAlertMessage(STRINGS.sessionEndedAlertMessage);
     } else {
       // show snackbar and paginate to next page
       props.setShowSnackbar(true);

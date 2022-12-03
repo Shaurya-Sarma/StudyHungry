@@ -46,8 +46,8 @@ export default function IntervalCard(props: {
       key: "Seconds",
       items: [] as { label: string; value: string }[],
     };
-    // add 0 - 59 seconds
-    for (let j = 0; j <= 59; j++) {
+    // add 1 - 59 seconds
+    for (let j = 1; j <= 59; j++) {
       col_3.items.push({ label: `${j} sec`, value: `${j}` });
     }
     options.push(col_1);

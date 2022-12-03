@@ -10,6 +10,7 @@ import SETTINGS from "../../res/Settings";
 import ActionButton from "./ActionButton";
 import AlertModal from "../AlertModal";
 import SettingsModal from "./SettingsModal";
+import STRINGS from "../../res/strings/en-EN";
 
 export default function Timer(props: {
   timerValue: number;
@@ -116,16 +117,16 @@ export default function Timer(props: {
   function timerCompleted() {
     setIsAlertModalVisible(true);
     if (props.name == "work") {
-      setAlertTitle("Focused Session Completed 👏");
-      setAlertMessage("Congrats and nice work! Take a break :D");
+      setAlertTitle(STRINGS.timerWorkCompletedAlertTitle);
+      setAlertMessage(STRINGS.timerWorkCompletedAlertMessage);
     }
     if (props.name == "short_break") {
-      setAlertTitle("The Break Has Ended ✏️");
-      setAlertMessage("Feeling Refreshed? Let's get back to work!");
+      setAlertTitle(STRINGS.timerShortBreakCompletedAlertTitle);
+      setAlertMessage(STRINGS.timerWorkCompletedAlertMessage);
     }
     if (props.name == "long_break") {
-      setAlertTitle("The Break Has Ended 📖");
-      setAlertMessage("Let's keep working hard! You've got this!");
+      setAlertTitle(STRINGS.timerShortBreakCompletedAlertTitle);
+      setAlertMessage(STRINGS.timerWorkCompletedAlertMessage);
     }
     restartTimer();
     // play success sound
@@ -142,13 +143,11 @@ export default function Timer(props: {
       setIsAlertModalVisible(true);
       playErrorSound();
       if (focusMode == "Flip") {
-        setAlertTitle("Timer Reset ❌");
-        setAlertMessage(
-          "Phone was not flipped in time. Please start a new focused working session."
-        );
+        setAlertTitle(STRINGS.timerResetAlertTitle);
+        setAlertMessage(STRINGS.timerResetFlipPhoneAlertMessage);
       } else if (focusMode == "Lockdown") {
-        setAlertTitle("Timer Reset ❌");
-        setAlertMessage("App was exited. Stay in the app for lockdown mode.");
+        setAlertTitle(STRINGS.timerResetAlertTitle);
+        setAlertMessage(STRINGS.timerResetLockdownAlertMessage);
       }
     }
   }, [triggerTimerReset.current]);

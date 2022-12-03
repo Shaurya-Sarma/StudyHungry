@@ -14,6 +14,7 @@ import Routine from "./Routine";
 import { secondsToHMS } from "../../../helpers/TimeConverter";
 import addHapticFeedback from "../../../helpers/HapticFeedback";
 import { removeRoutine } from "../../api/AsyncStorage";
+import STRINGS from "../../res/strings/en-EN";
 
 export default function RoutineForm({ navigation, route }: any) {
   // ---------------------------------------------------------------------------------------
@@ -57,8 +58,8 @@ export default function RoutineForm({ navigation, route }: any) {
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>
           {route.params?.createNewRoutine == false
-            ? "Edit Routine"
-            : "Create Routine"}
+            ? STRINGS.routineFormTitleEdit
+            : STRINGS.routineFormTitleCreate}
         </Text>
         <Divider
           bold={true}
@@ -74,7 +75,9 @@ export default function RoutineForm({ navigation, route }: any) {
           onChangeText={(text) => setRoutineName(text)}
         />
         <View style={styles.row}>
-          <Text style={styles.heading}>Intervals:</Text>
+          <Text style={styles.heading}>
+            {STRINGS.routineFormSubheadingIntervals}
+          </Text>
           <SelectDropdown
             data={intervalTypes}
             onSelect={(selectedItem, index) => {
@@ -87,9 +90,9 @@ export default function RoutineForm({ navigation, route }: any) {
               intervalsCopy.push(new Interval(selectedItem, defaultTimeValue));
               setIntervals(intervalsCopy);
             }}
-            defaultButtonText="Add"
+            defaultButtonText={STRINGS.routineFormAddButton}
             buttonTextAfterSelection={(selectedItem, index) => {
-              return "Add";
+              return STRINGS.routineFormAddButton;
             }}
             rowTextForSelection={(item, index) => {
               return IntervalType[item];
@@ -130,7 +133,9 @@ export default function RoutineForm({ navigation, route }: any) {
             })}
           </ScrollView>
         </View>
-        <Text style={styles.subtitle}>Total Time: {calculateTotalTime()}</Text>
+        <Text style={styles.subtitle}>
+          {STRINGS.routineFormSubheadingTotalTime} {calculateTotalTime()}
+        </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -190,7 +195,7 @@ export default function RoutineForm({ navigation, route }: any) {
             }
           }}
         >
-          <Text style={styles.buttonText}>Save</Text>
+          <Text style={styles.buttonText}>{STRINGS.routineFormSaveButton}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </>
