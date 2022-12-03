@@ -14,6 +14,16 @@ const SoundProvider = ({ children }) => {
       });
   }
 
+  async function playSessionEndSound() {
+    // load sound
+    const sound = new Audio.Sound();
+    await sound
+      .loadAsync(require(`../../assets/sounds/session_end_success.mp3`))
+      .then(() => {
+        sound.playAsync();
+      });
+  }
+
   async function playTimerBuzzSound() {
     // load sound
     const sound = new Audio.Sound();
@@ -38,6 +48,7 @@ const SoundProvider = ({ children }) => {
         playTimerBuzzSound,
         playTimerEndSound,
         playErrorSound,
+        playSessionEndSound,
       }}
     >
       {children}

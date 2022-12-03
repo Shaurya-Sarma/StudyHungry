@@ -16,7 +16,6 @@ import STRINGS from "../../../res/strings/en-EN";
 import Interval, { IntervalType } from "../Interval";
 import { SoundContext } from "../../../contexts/SoundContext";
 import AlertModal from "../../AlertModal";
-import Navigation from "../../Navigation/BottomTabNavigation";
 
 export default function SessionInterval(props: {
   interval: Interval;
@@ -30,7 +29,7 @@ export default function SessionInterval(props: {
 
   const { currentPageIndex, setCurrentPageIndex } = useContext(RoutineContext);
 
-  const { playTimerEndSound } = useContext(SoundContext);
+  const { playTimerEndSound, playSessionEndSound } = useContext(SoundContext);
 
   // show alert modal box
   const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
@@ -64,16 +63,17 @@ export default function SessionInterval(props: {
 
   function timerCompleted() {
     Vibration.vibrate();
-    playTimerEndSound();
     // make sure currentPageIndex within bounds
     if (props.itemIndex + 1 >= props.numOfIntervals) {
       // session ended: display alert
+      playSessionEndSound();
       setIsAlertModalVisible(true);
       setAlertTitle(STRINGS.sessionEndedAlertTitle);
       setAlertMessage(STRINGS.sessionEndedAlertMessage);
     } else {
       // show snackbar and paginate to next page
       props.setShowSnackbar(true);
+      playTimerEndSound();
       setCurrentPageIndex((currentPageIndex: any) => currentPageIndex + 1);
     }
   }
