@@ -18,14 +18,51 @@ export default function Timer(props: {
   itemIndex: number;
 }) {
   // import timer variables
-  const { isTimerEnabled, setIsTimerEnabled, triggerTimerReset, focusMode } =
-    useContext(TimerContext);
+  const {
+    isTimerWorkEnabled,
+    setIsTimerWorkEnabled,
+    isTimerShortBreakEnabled,
+    setIsTimerShortBreakEnabled,
+    isTimerLongBreakEnabled,
+    setIsTimerLongBreakEnabled,
+    triggerTimerReset,
+    focusMode,
+  } = useContext(TimerContext);
 
   // import sound player
   const { playTimerEndSound, playErrorSound } = useContext(SoundContext);
 
   // declare countdown timer controls
-  const timerControls = useRef<ProgressRef>(null);
+  // 0 --> work
+  // 1 --> short break
+  // 2 --> long break
+  // ----------------------------------------------------------------
+  const timerControlsWork = useRef<ProgressRef>(null);
+  const timerControlsShortBreak = useRef<ProgressRef>(null);
+  const timerControlsLongBreak = useRef<ProgressRef>(null);
+
+  const timerControls =
+    props.itemIndex == 0
+      ? timerControlsWork
+      : props.itemIndex == 1
+      ? timerControlsShortBreak
+      : timerControlsLongBreak;
+
+  const isTimerEnabled =
+    props.itemIndex == 0
+      ? isTimerWorkEnabled
+      : props.itemIndex == 1
+      ? isTimerShortBreakEnabled
+      : isTimerLongBreakEnabled;
+
+  const setIsTimerEnabled =
+    props.itemIndex == 0
+      ? setIsTimerWorkEnabled
+      : props.itemIndex == 1
+      ? setIsTimerShortBreakEnabled
+      : setIsTimerLongBreakEnabled;
+
+  // ----------------------------------------------------------------
 
   // show settings menu
   const [isSettingsVisible, setSettingsIsVisible] = useState(false);
@@ -38,9 +75,7 @@ export default function Timer(props: {
   // on initialization set timer to inactive
   useEffect(() => {
     setTimeout(function () {
-      if (timerControls != null && timerControls.current != null) {
-        timerControls.current.pause();
-      }
+      timerControls.current?.pause();
     }, 100);
   }, []);
 
@@ -57,12 +92,10 @@ export default function Timer(props: {
     // toggle play or pause button
     setIsTimerEnabled(!isTimerEnabled);
     addHapticFeedback("light");
-    if (timerControls != null && timerControls.current != null) {
-      if (isTimerEnabled) {
-        timerControls.current.pause();
-      } else {
-        timerControls.current.play();
-      }
+    if (isTimerEnabled) {
+      timerControls.current?.pause();
+    } else {
+      timerControls.current?.play();
     }
   };
 
@@ -71,14 +104,10 @@ export default function Timer(props: {
     // deactivate timer
     setIsTimerEnabled(false);
     addHapticFeedback("light");
-    if (timerControls != null && timerControls.current != null) {
-      timerControls.current.reAnimate();
-      setTimeout(function () {
-        if (timerControls != null && timerControls.current != null) {
-          timerControls.current.pause();
-        }
-      }, 100);
-    }
+    timerControls.current?.reAnimate();
+    setTimeout(function () {
+      timerControls.current?.pause();
+    }, 100);
   };
 
   // set alert message for user when pomodoro finished and toggle alert modal
@@ -128,7 +157,13 @@ export default function Timer(props: {
     <View>
       <View style={styles.timer}>
         <CircularProgress
-          ref={timerControls}
+          ref={
+            props.itemIndex == 0
+              ? timerControlsWork
+              : props.itemIndex == 1
+              ? timerControlsShortBreak
+              : timerControlsLongBreak
+          }
           value={0}
           radius={150}
           maxValue={props.timerValue}
@@ -175,6 +210,7 @@ export default function Timer(props: {
           name="play"
           themeColor={props.color}
           buttonAction={toggleTimer}
+          itemIndex={props.itemIndex}
         />
 
         <ActionButton

@@ -109,9 +109,24 @@ export const SettingsIcon = (props: { size: number; fillColor: string }) => {
   );
 };
 
-export const PlayIcon = (props: { size: number; fillColor: string }) => {
+export const PlayIcon = (props: {
+  size: number;
+  fillColor: string;
+  itemIndex?: number;
+}) => {
   // define timer variables
-  const { isTimerEnabled } = useContext(TimerContext);
+  const {
+    isTimerWorkEnabled,
+    isTimerShortBreakEnabled,
+    isTimerLongBreakEnabled,
+  } = useContext(TimerContext);
+
+  const isTimerEnabled =
+    props.itemIndex == 0
+      ? isTimerWorkEnabled
+      : props.itemIndex == 1
+      ? isTimerShortBreakEnabled
+      : isTimerLongBreakEnabled;
 
   return isTimerEnabled ? (
     <Svg width={props.size} height={props.size} viewBox="0 0 40 40">

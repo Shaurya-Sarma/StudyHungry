@@ -11,6 +11,7 @@ export default function ActionButton(props: {
   name: string;
   themeColor: string;
   buttonAction: any;
+  itemIndex?: number;
 }) {
   // define type of action button based on prop passed
   if (props.name === "settings") {
@@ -28,7 +29,11 @@ export default function ActionButton(props: {
         style={[styles.button, { backgroundColor: props.themeColor }]}
         onPress={props.buttonAction}
       >
-        <PlayIcon size={iconSize} fillColor={iconColor} />
+        <PlayIcon
+          size={iconSize}
+          fillColor={iconColor}
+          itemIndex={props.itemIndex}
+        />
       </TouchableOpacity>
     );
   } else if (props.name === "restart") {

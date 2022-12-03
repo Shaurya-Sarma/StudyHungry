@@ -1,21 +1,18 @@
 import { Accelerometer } from "expo-sensors";
 import { useEffect, useState, useContext } from "react";
-import { StyleSheet, Vibration } from "react-native";
-import { Snackbar } from "react-native-paper";
 import { TimerContext } from "../../contexts/TimerContext";
-import COLORS from "../../res/colors/Colors";
-import SETTINGS from "../../res/Settings";
 import FlipPhoneSnackbar from "./FlipPhoneSnackbar";
 
 export default function AccelerometerObserver(props: any) {
   // import timer variables
-  const { isTimerEnabled, focusMode, currentPageIndex } =
+  // ----------------------------------------------------------------
+  const { isTimerWorkEnabled, focusMode, currentPageIndex } =
     useContext(TimerContext);
 
   const [showFlipPhoneSnackbar, setShowFlipPhoneSnackbar] = useState(false);
+  // ----------------------------------------------------------------
 
   // handle accelerometer functionality
-  // ------------------------------------------------------
 
   const [data, setData] = useState({
     x: 0,
@@ -46,7 +43,7 @@ export default function AccelerometerObserver(props: any) {
   // subscribes to accelerometer when work timer active and focus mode enabled
   // changes the data values of accelerometer
   useEffect(() => {
-    if (focusMode == "Flip" && isTimerEnabled) {
+    if (focusMode == "Flip" && isTimerWorkEnabled) {
       _subscribe();
       // calls when component is destroyed
       return () => _unsubscribe();
@@ -54,7 +51,7 @@ export default function AccelerometerObserver(props: any) {
       _unsubscribe();
       setData({ x: 0, y: 0, z: 0 });
     }
-  }, [isTimerEnabled]);
+  }, [isTimerWorkEnabled]);
 
   // use accelerometer values to know if phone is flipped
   // updates every time data from accelerometer is read
@@ -70,7 +67,7 @@ export default function AccelerometerObserver(props: any) {
   useEffect(() => {
     if (
       !isFlipped &&
-      isTimerEnabled &&
+      isTimerWorkEnabled &&
       focusMode == "Flip" &&
       currentPageIndex == 0
     ) {
@@ -78,11 +75,11 @@ export default function AccelerometerObserver(props: any) {
     } else {
       setShowFlipPhoneSnackbar(false);
     }
-  }, [isFlipped, isTimerEnabled]);
+  }, [isFlipped, isTimerWorkEnabled]);
+
+  // ----------------------------------------------------------------
 
   // handle snackbar functionality
-  // ----------------------------------------------------------
-
   return showFlipPhoneSnackbar ? (
     <FlipPhoneSnackbar
       showFlipPhoneSnackbar={showFlipPhoneSnackbar}

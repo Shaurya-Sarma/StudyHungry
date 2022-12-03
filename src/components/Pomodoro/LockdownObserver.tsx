@@ -6,8 +6,14 @@ import SnackbarMessage from "../SnackbarMessage";
 
 export default function LockdownObserver(props: any) {
   // import timer variables
-  const { focusMode, triggerTimerReset, setIsTimerEnabled, isTimerEnabled } =
-    useContext(TimerContext);
+  // ----------------------------------------------------------------
+  const {
+    focusMode,
+    triggerTimerReset,
+    isTimerWorkEnabled,
+    setIsTimerWorkEnabled,
+  } = useContext(TimerContext);
+  // ----------------------------------------------------------------
 
   // handle changes to app state or activity
   const appState = useRef(AppState.currentState);
@@ -37,7 +43,7 @@ export default function LockdownObserver(props: any) {
         // restart timer in via timer.tsx and disable lockdown mode
         triggerTimerReset.current = true;
         // trigger component rerender
-        setIsTimerEnabled(!isTimerEnabled);
+        setIsTimerWorkEnabled(!isTimerWorkEnabled);
       }
     } else {
       setShowLockdownSnackbar(false);

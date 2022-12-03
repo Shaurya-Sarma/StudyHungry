@@ -9,8 +9,31 @@ import SnackbarMessage from "../SnackbarMessage";
 
 export default function FlipPhoneSnackbar(props: any) {
   // import timer variables
-  const { triggerTimerReset, setIsTimerEnabled, isTimerEnabled } =
-    useContext(TimerContext);
+  // ----------------------------------------------------------------
+  const {
+    triggerTimerReset,
+    isTimerWorkEnabled,
+    setIsTimerWorkEnabled,
+    isTimerShortBreakEnabled,
+    setIsTimerShortBreakEnabled,
+    isTimerLongBreakEnabled,
+    setIsTimerLongBreakEnabled,
+  } = useContext(TimerContext);
+
+  const isTimerEnabled =
+    props.itemIndex == 0
+      ? isTimerWorkEnabled
+      : props.itemIndex == 1
+      ? isTimerShortBreakEnabled
+      : isTimerLongBreakEnabled;
+
+  const setIsTimerEnabled =
+    props.itemIndex == 0
+      ? setIsTimerWorkEnabled
+      : props.itemIndex == 1
+      ? setIsTimerShortBreakEnabled
+      : setIsTimerLongBreakEnabled;
+  // ----------------------------------------------------------------
 
   // import sound player
   const { playTimerBuzzSound } = useContext(SoundContext);
@@ -60,16 +83,6 @@ export default function FlipPhoneSnackbar(props: any) {
       snackbarStyle={styles.warning}
       haveLabel={false}
     />
-    // <Snackbar
-    //   wrapperStyle={{ top: 0 }}
-    //   style={styles.warning}
-    //   visible={props.showFlipPhoneSnackbar}
-    //   onDismiss={onDismissSnackBar}
-    //   duration={Infinity}
-    // >
-    //   Flip Mode is activated! Timer will be deactivated soon since focus has
-    //   been lost
-    // </Snackbar>
   );
 }
 

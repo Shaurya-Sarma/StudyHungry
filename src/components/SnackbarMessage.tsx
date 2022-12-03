@@ -12,7 +12,7 @@ export default function SnackbarMessage(props: {
 
   return (
     <Snackbar
-      wrapperStyle={{ top: 0 }}
+      wrapperStyle={{ top: 0, position: "absolute" }}
       style={props.snackbarStyle}
       visible={props.isVisible}
       onDismiss={onDismissSnackBar}

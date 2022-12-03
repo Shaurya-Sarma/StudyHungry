@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
+import { RoutineContext } from "../../../contexts/RoutineContext";
 import COLORS from "../../../res/colors/Colors";
 import SETTINGS from "../../../res/Settings";
 import STRINGS from "../../../res/strings/en-EN";
@@ -10,10 +11,12 @@ import Interval, { IntervalType } from "../Interval";
 
 export default function SessionInterval(props: {
   interval: Interval;
+  numOfIntervals: number;
   scrollToNextPage: Function;
   itemIndex: number;
 }) {
   const windowWidth = useWindowDimensions();
+  const { currentPageIndex, setCurrentPageIndex } = useContext(RoutineContext);
 
   // declare countdown timer controls and vars
   // ---------------------------------------------------------------------------------------
@@ -30,20 +33,24 @@ export default function SessionInterval(props: {
       : STRINGS.pomodoroTitleShortBreakMain;
   // ---------------------------------------------------------------------------------------
   // on initialization set timer to inactive
-  //! need to pause all other timers except current one (use currentPageIndex from routines.context )
-  //! only set the current one active
   useEffect(() => {
     setTimeout(function () {
-      if (timerControls != null && timerControls.current != null) {
-        timerControls.current.pause();
+      if (currentPageIndex !== props.itemIndex) {
+        timerControls.current?.pause();
+      } else {
+        timerControls.current?.play();
       }
     }, 100);
-  }, []);
+  }, [currentPageIndex]);
 
   function timerCompleted() {
     // show snackbar and paginate to next page
-    // props.scrollToNextPage;
-    console.log("timer done! ");
+    // make sure currentPageIndex within bounds
+    if (props.itemIndex + 1 >= props.numOfIntervals) {
+      // session ended: display alert
+    } else {
+      setCurrentPageIndex((currentPageIndex: any) => currentPageIndex + 1);
+    }
   }
 
   return (

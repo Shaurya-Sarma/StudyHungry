@@ -1,7 +1,6 @@
-import { useCallback, useContext, useRef } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RoutineContext } from "../../../contexts/RoutineContext";
 import COLORS from "../../../res/colors/Colors";
@@ -18,27 +17,26 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
   // ---------------------------------------------------------------------------------------
 
   // import routine variables
-  const { setCurrentPageIndex } = useContext(RoutineContext);
+  const { currentPageIndex, setCurrentPageIndex } = useContext(RoutineContext);
 
   const data: Interval[] = route.params?.routine.intervals;
 
   // flat list vars
   // ---------------------------------------------------------------------------------------
-  const _onViewableItemsChanged = useCallback(
-    ({ viewableItems, changed }: any) => {
-      setCurrentPageIndex(viewableItems[0].index);
-    },
-    []
-  );
   const flatListRef = useRef<any>(null);
 
   const scrollToNextPage = () => {
-    console.log("scroll to index called !");
     flatListRef.current?.scrollToIndex({
       animated: true,
-      index: setCurrentPageIndex((current: number) => current++),
+      index: currentPageIndex,
     });
   };
+
+  useEffect(() => {
+    if (currentPageIndex != 0) {
+      scrollToNextPage();
+    }
+  }, [currentPageIndex]);
   // ---------------------------------------------------------------------------------------
 
   function exitSession() {
@@ -57,18 +55,21 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
             renderItem={({ item, index }) => (
               <SessionInterval
                 interval={item}
+                numOfIntervals={data.length}
                 scrollToNextPage={scrollToNextPage}
                 itemIndex={index}
               />
             )}
-            // scrollEnabled={false}
+            onScrollToIndexFailed={() => {
+              setCurrentPageIndex(0);
+            }}
+            scrollEnabled={false}
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             bounces={false}
             keyExtractor={(item, index) => index.toString()}
             scrollEventThrottle={32}
-            onViewableItemsChanged={_onViewableItemsChanged}
             ref={flatListRef}
           />
         </View>

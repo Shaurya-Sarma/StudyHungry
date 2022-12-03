@@ -4,8 +4,10 @@ const TimerContext = createContext();
 
 const TimerProvider = ({ children }) => {
   // tracker for whether timer is active
-  const [isTimerEnabled, setIsTimerEnabled] = useState(false);
-
+  const [isTimerWorkEnabled, setIsTimerWorkEnabled] = useState(false);
+  const [isTimerShortBreakEnabled, setIsTimerShortBreakEnabled] =
+    useState(false);
+  const [isTimerLongBreakEnabled, setIsTimerLongBreakEnabled] = useState(false);
   // determine state of pomodoro focus mode
   const [focusMode, setFocusMode] = useState("Off");
 
@@ -20,8 +22,12 @@ const TimerProvider = ({ children }) => {
   return (
     <TimerContext.Provider
       value={{
-        isTimerEnabled,
-        setIsTimerEnabled,
+        isTimerWorkEnabled,
+        setIsTimerWorkEnabled,
+        isTimerShortBreakEnabled,
+        setIsTimerShortBreakEnabled,
+        isTimerLongBreakEnabled,
+        setIsTimerLongBreakEnabled,
         focusMode,
         setFocusMode,
         currentPageIndex,
