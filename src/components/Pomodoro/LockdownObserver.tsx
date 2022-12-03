@@ -54,6 +54,7 @@ export default function LockdownObserver(props: any) {
     <SnackbarMessage
       message={STRINGS.lockdownSnackbarMessage}
       isVisible={showLockdownSnackbar}
+      durationSeconds={Infinity}
       setIsVisible={setShowLockdownSnackbar}
       haveLabel={true}
       labelStyle={{ fontFamily: "Nunito-ExtraBold" }}

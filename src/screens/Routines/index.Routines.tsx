@@ -188,6 +188,7 @@ export default function Routines({ navigation }: any) {
       <SnackbarMessage
         message={STRINGS.startSessionSnackbarMessage}
         isVisible={showSnackbar}
+        durationSeconds={5000}
         setIsVisible={setShowSnackbar}
         haveLabel={true}
         labelStyle={{ fontFamily: "Nunito-ExtraBold" }}

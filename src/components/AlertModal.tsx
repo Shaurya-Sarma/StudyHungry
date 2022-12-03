@@ -3,19 +3,28 @@ import { StyleSheet } from "react-native";
 import COLORS from "../res/colors/Colors";
 import Modal from "react-native-modal";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AlertModal(props: {
   title: string;
   message: string;
   isAlertModalVisible: boolean;
   setIsAlertModalVisible: Function;
+  goBack: boolean;
 }) {
+  const navigation = useNavigation();
+
+  const onDismissAlertModal = () => {
+    props.setIsAlertModalVisible(false);
+    if (props.goBack) navigation.goBack();
+  };
+
   return (
     <>
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"
-        onBackdropPress={() => props.setIsAlertModalVisible(false)}
+        onBackdropPress={onDismissAlertModal}
         hideModalContentWhileAnimating={true}
         useNativeDriver={true}
         isVisible={props.isAlertModalVisible}
@@ -24,9 +33,7 @@ export default function AlertModal(props: {
           <Text style={styles.title}>{props.title}</Text>
           <Text style={styles.message}>{props.message}</Text>
           <View style={styles.buttonList}>
-            <TouchableOpacity
-              onPress={() => props.setIsAlertModalVisible(false)}
-            >
+            <TouchableOpacity onPress={onDismissAlertModal}>
               <Text style={styles.buttonText}>Close</Text>
             </TouchableOpacity>
           </View>

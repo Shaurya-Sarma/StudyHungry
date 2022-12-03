@@ -3,6 +3,7 @@ import { Snackbar } from "react-native-paper";
 export default function SnackbarMessage(props: {
   message: string;
   isVisible: boolean;
+  durationSeconds: number;
   setIsVisible: Function;
   snackbarStyle?: {};
   haveLabel: boolean;
@@ -16,7 +17,7 @@ export default function SnackbarMessage(props: {
       style={props.snackbarStyle}
       visible={props.isVisible}
       onDismiss={onDismissSnackBar}
-      duration={Infinity}
+      duration={props.durationSeconds}
       action={{
         label: props.haveLabel ? "HIDE" : "",
         labelStyle: { ...props.labelStyle },

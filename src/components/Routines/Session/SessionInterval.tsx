@@ -1,5 +1,11 @@
-import { useContext, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import { useContext, useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  Vibration,
+} from "react-native";
 import CircularProgress, {
   ProgressRef,
 } from "react-native-circular-progress-indicator";
@@ -8,15 +14,28 @@ import COLORS from "../../../res/colors/Colors";
 import SETTINGS from "../../../res/Settings";
 import STRINGS from "../../../res/strings/en-EN";
 import Interval, { IntervalType } from "../Interval";
+import { SoundContext } from "../../../contexts/SoundContext";
+import AlertModal from "../../AlertModal";
+import Navigation from "../../Navigation/BottomTabNavigation";
 
 export default function SessionInterval(props: {
   interval: Interval;
   numOfIntervals: number;
   scrollToNextPage: Function;
   itemIndex: number;
+  showSnackbar: boolean;
+  setShowSnackbar: Function;
 }) {
   const windowWidth = useWindowDimensions();
+
   const { currentPageIndex, setCurrentPageIndex } = useContext(RoutineContext);
+
+  const { playTimerEndSound } = useContext(SoundContext);
+
+  // show alert modal box
+  const [isAlertModalVisible, setIsAlertModalVisible] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   // declare countdown timer controls and vars
   // ---------------------------------------------------------------------------------------
@@ -31,7 +50,7 @@ export default function SessionInterval(props: {
     IntervalType[props.interval.type] == "Work"
       ? STRINGS.pomodoroTitleFocusMain
       : STRINGS.pomodoroTitleShortBreakMain;
-  // ---------------------------------------------------------------------------------------
+
   // on initialization set timer to inactive
   useEffect(() => {
     setTimeout(function () {
@@ -44,14 +63,21 @@ export default function SessionInterval(props: {
   }, [currentPageIndex]);
 
   function timerCompleted() {
-    // show snackbar and paginate to next page
+    Vibration.vibrate();
+    playTimerEndSound();
     // make sure currentPageIndex within bounds
     if (props.itemIndex + 1 >= props.numOfIntervals) {
       // session ended: display alert
+      setIsAlertModalVisible(true);
+      setAlertTitle("Session Has Ended! 🥳🎉");
+      setAlertMessage("Great Work! You are amazing!");
     } else {
+      // show snackbar and paginate to next page
+      props.setShowSnackbar(true);
       setCurrentPageIndex((currentPageIndex: any) => currentPageIndex + 1);
     }
   }
+  // ---------------------------------------------------------------------------------------
 
   return (
     <>
@@ -96,6 +122,13 @@ export default function SessionInterval(props: {
           />
         </View>
       </View>
+      <AlertModal
+        title={alertTitle}
+        message={alertMessage}
+        isAlertModalVisible={isAlertModalVisible}
+        setIsAlertModalVisible={setIsAlertModalVisible}
+        goBack={true}
+      />
     </>
   );
 }

@@ -1,11 +1,12 @@
-import { useContext, useRef, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { useContext, useRef, useEffect, useState } from "react";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RoutineContext } from "../../../contexts/RoutineContext";
 import COLORS from "../../../res/colors/Colors";
 import STRINGS from "../../../res/strings/en-EN";
 import FocusedStatusBar from "../../FocusedStatusBar";
+import SnackbarMessage from "../../SnackbarMessage";
 import Interval from "../Interval";
 import SessionInterval from "./SessionInterval";
 import SessionPaginator from "./SessionPaginator";
@@ -14,12 +15,15 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
   // ---------------------------------------------------------------------------------------
   // {route} has three vars
   // routine: Routine => holds the selected Routine
+  const data: Interval[] = route.params?.routine.intervals;
   // ---------------------------------------------------------------------------------------
 
   // import routine variables
   const { currentPageIndex, setCurrentPageIndex } = useContext(RoutineContext);
+  const [inProgress, setInProgress] = useState(true);
 
-  const data: Interval[] = route.params?.routine.intervals;
+  // snackbar settings
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   // flat list vars
   // ---------------------------------------------------------------------------------------
@@ -31,18 +35,40 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
       index: currentPageIndex,
     });
   };
+  // ---------------------------------------------------------------------------------------
 
+  // trigger auto pagination
   useEffect(() => {
     if (currentPageIndex != 0) {
       scrollToNextPage();
     }
   }, [currentPageIndex]);
-  // ---------------------------------------------------------------------------------------
 
-  function exitSession() {
-    //! display alert to confirm user exit
-    navigation.pop();
-  }
+  //! confirmation if user tries to exit screen: WIP
+
+  // useEffect(() => {
+  //   navigation.addListener("beforeRemove", (e: any) => {
+  //     // Prevent default behavior of leaving the screen
+  //     e.preventDefault();
+
+  //     // Prompt the user before leaving the screen
+  //     Alert.alert(
+  //       "Warning! Exiting Session",
+  //       "Progress will be reset. Do you want to continue?",
+  //       [
+  //         { text: "Cancel", style: "cancel", onPress: () => {} },
+  //         {
+  //           text: "OK",
+  //           style: "destructive",
+  //           // If the user confirmed, then we dispatch the action we blocked earlier
+  //           // This will continue the action that had triggered the removal of the screen
+  //           onPress: () => navigation.dispatch(e.data.action),
+  //         },
+  //       ]
+  //     );
+  //   });
+  // }, [navigation]);
+  // ---------------------------------------------------------------------------------------
 
   return (
     <>
@@ -58,6 +84,8 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
                 numOfIntervals={data.length}
                 scrollToNextPage={scrollToNextPage}
                 itemIndex={index}
+                showSnackbar={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
               />
             )}
             onScrollToIndexFailed={() => {
@@ -73,10 +101,22 @@ export default function SessionScreen({ navigation, route }: any, props: any) {
             ref={flatListRef}
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => exitSession()}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.pop()}
+        >
           <Text style={styles.buttonText}>{STRINGS.exitSessionButton}</Text>
         </TouchableOpacity>
       </SafeAreaView>
+      <SnackbarMessage
+        message={STRINGS.intervalCompletedSnackbarMessage}
+        isVisible={showSnackbar}
+        durationSeconds={5000}
+        setIsVisible={setShowSnackbar}
+        haveLabel={true}
+        snackbarStyle={styles.snackbar}
+        labelStyle={{ fontFamily: "Nunito-ExtraBold", color: COLORS.white }}
+      />
     </>
   );
 }
@@ -100,5 +140,9 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     textTransform: "uppercase",
     marginVertical: 5,
+  },
+  snackbar: {
+    color: COLORS.white,
+    backgroundColor: COLORS.purple,
   },
 });

@@ -79,6 +79,7 @@ export default function FlipPhoneSnackbar(props: any) {
     <SnackbarMessage
       message={STRINGS.flipPhoneSnackbarMessage}
       isVisible={props.showFlipPhoneSnackbar}
+      durationSeconds={Infinity}
       setIsVisible={props.setShowFlipPhoneSnackbar}
       snackbarStyle={styles.warning}
       haveLabel={false}

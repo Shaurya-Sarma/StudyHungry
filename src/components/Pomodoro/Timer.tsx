@@ -224,7 +224,8 @@ export default function Timer(props: {
         message={alertMessage}
         isAlertModalVisible={isAlertModalVisible}
         setIsAlertModalVisible={setIsAlertModalVisible}
-      ></AlertModal>
+        goBack={false}
+      />
     </View>
   );
 }
