@@ -122,11 +122,11 @@ export default function Timer(props: {
     }
     if (props.name == "short_break") {
       setAlertTitle(STRINGS.timerShortBreakCompletedAlertTitle);
-      setAlertMessage(STRINGS.timerWorkCompletedAlertMessage);
+      setAlertMessage(STRINGS.timerShortBreakCompletedAlertMessage);
     }
     if (props.name == "long_break") {
-      setAlertTitle(STRINGS.timerShortBreakCompletedAlertTitle);
-      setAlertMessage(STRINGS.timerWorkCompletedAlertMessage);
+      setAlertTitle(STRINGS.timerLongBreakCompletedAlertTitle);
+      setAlertMessage(STRINGS.timerLongBreakCompletedAlertMessage);
     }
     restartTimer();
     // play success sound

@@ -15,7 +15,7 @@ const STRINGS = {
   tutorialsTitle: "Tutorials",
   routinesTitle: "Routines",
   lockdownSnackbarMessage: "Lockdown Mode is currently active. Leaving the app will restart the timer!",
-  flipPhoneSnackbarMessage: "Flip Mode is activated! Timer will be deactivated soon since focus has been lost",
+  flipPhoneSnackbarMessage: "Flip Mode is activated! Timer will be reset if the phone is not flipped upside down.",
   startSessionSnackbarMessage: "Please select a routine. Only one can be activated at a time.",
   intervalCompletedSnackbarMessage: "An interval has been completed, keep on going! Make sure to hydrate and refuel!",
   startSessionButton: "Start Session",

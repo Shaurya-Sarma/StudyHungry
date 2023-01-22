@@ -2,9 +2,8 @@
   "expo": {
     "name": "StudyHungry",
     "slug": "studyhungry",
-    "owner": "studyhungry",
     "description": "An app that acts as a constant companion to help you battle procrastination.",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/study-hungry-logo.png",
     "userInterfaceStyle": "light",
@@ -16,9 +15,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shaux.studyhungry"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9ccdbe67-d5b8-43af-ba4c-23aa21c97b14"
+      }
     }
   }
 }

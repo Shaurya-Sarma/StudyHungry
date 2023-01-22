@@ -33,6 +33,7 @@
     "react-native": "0.69.6",
     "react-native-bouncy-checkbox": "^3.0.5",
     "react-native-circular-progress-indicator": "^4.4.0",
+    "react-native-dotenv": "^3.4.7",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-material-buttons": "^0.6.0",
     "react-native-material-ripple": "^0.9.1",

@@ -42,17 +42,17 @@ export default function IntervalCard(props: {
     for (let j = 0; j <= 59; j++) {
       col_2.items.push({ label: `${j} min`, value: `${j}` });
     }
-    let col_3 = {
-      key: "Seconds",
-      items: [] as { label: string; value: string }[],
-    };
-    // add 1 - 59 seconds
-    for (let j = 1; j <= 59; j++) {
-      col_3.items.push({ label: `${j} sec`, value: `${j}` });
-    }
+    // let col_3 = {
+    //   key: "Seconds",
+    //   items: [] as { label: string; value: string }[],
+    // };
+    // // add 1 - 59 seconds
+    // for (let j = 0; j <= 59; j++) {
+    //   col_3.items.push({ label: `${j} sec`, value: `${j}` });
+    // }
     options.push(col_1);
     options.push(col_2);
-    options.push(col_3);
+    // options.push(col_3);
     return options;
   }
   // ---------------------------------------------------
@@ -99,9 +99,12 @@ export default function IntervalCard(props: {
           // convert selections object to time in seconds
           const timeInSeconds =
             parseInt(selections["Hours"]) * 3600 +
-            parseInt(selections["Minutes"]) * 60 +
-            parseInt(selections["Seconds"]);
-          if (intervalsCopy[props.currentIntervalIndex] !== undefined) {
+            parseInt(selections["Minutes"]) * 60;
+          // if timeInSeconds is 0 then don't change
+          if (
+            intervalsCopy[props.currentIntervalIndex] !== undefined &&
+            timeInSeconds !== 0
+          ) {
             intervalsCopy[props.currentIntervalIndex].length = timeInSeconds;
           }
           props.setIntervals(intervalsCopy);

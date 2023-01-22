@@ -1,4 +1,4 @@
-import { API_KEY } from "../../env";
+import {API_KEY} from '@env'
 
 const SEARCH_TERMS = [
   "study%20habits",
