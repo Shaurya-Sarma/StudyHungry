@@ -13,6 +13,12 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "shaurya.sarma@gmail.com",
+        "ascAppId": "1664623080",
+        "appleTeamId": "CF54R4NH4F"
+      }
+    }
   }
 }
