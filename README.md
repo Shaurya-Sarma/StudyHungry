@@ -10,12 +10,14 @@ Built-in Pomodoro System:
 - Toggle Flip Phone mode to eliminate distractions by turning over your phone screen
 - Toggle Lockdown mode to stay within the app and resist any temptations to mindlessly scroll
 
+![App Screenshot 1 (5 5 in)](https://github.com/user-attachments/assets/d69057e3-8952-4864-a654-3ddae0d6853c)
 
 Daily Agenda:
 - Keep track of goals throughout your day 
 - Quickly create new goals to accomplish
 - Check off completed goals to see how far you have come
 
+![App Screenshot 2 (5 5 in)](https://github.com/user-attachments/assets/153dc403-c082-4254-9efc-31c9f0b1795b)
 
 Videos:
 - Take a break from working while still keeping your mind active and fresh
@@ -24,6 +26,7 @@ Videos:
 - Implement new study practices from videos 
 - Refresh videos by swiping up 
 
+![App Screenshot 3 (5 5 in)](https://github.com/user-attachments/assets/95805324-7a98-464d-9450-175c99542100)
 
 Routines:
 - Create customizable presets to control the way you study
@@ -31,7 +34,4 @@ Routines:
 - Use presets to establish healthy habits through repetition
 - No need to touch your phone while using a routine to prevent being distracted
 
-![App Screenshot 1 (5 5 in)](https://github.com/user-attachments/assets/d69057e3-8952-4864-a654-3ddae0d6853c)
-![App Screenshot 2 (5 5 in)](https://github.com/user-attachments/assets/153dc403-c082-4254-9efc-31c9f0b1795b)
-![App Screenshot 3 (5 5 in)](https://github.com/user-attachments/assets/95805324-7a98-464d-9450-175c99542100)
 ![App Screenshot 4 (5 5 in)](https://github.com/user-attachments/assets/c10dfea9-11d0-4a14-8db7-2fe2e8751203)
