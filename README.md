@@ -2,6 +2,12 @@
 
 StudyHungry will change the way you study. Avoid distractions, learn something new, and establish healthy habits. Never waste another minute procrastinating.
 
+## DEMO: 
+
+https://github.com/user-attachments/assets/710a0d8d-beb0-4036-952b-21cfdc1b08ac
+
+## Description: 
+
 Built-in Pomodoro System:
 - Stay focused and productive on your task 
 - Break your working time into timed intervals to stay refreshed and recharged
